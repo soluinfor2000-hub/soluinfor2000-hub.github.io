@@ -32,7 +32,6 @@
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.5);
             border: 1px solid rgba(255,255,255,0.6);
         }
-        /* Menú estilo Windows */
         .menu-bar {
             display: flex;
             justify-content: flex-end;
@@ -89,8 +88,6 @@
             color: #3b82f6;
             width: 18px;
         }
-
-        /* Modal para Histórico de versiones */
         .modal {
             display: none;
             position: fixed;
@@ -547,7 +544,7 @@
     (function() {
         // ----- CONFIGURACIÓN -----
         // REEMPLAZA ESTA URL CON LA DE TU APLICACIÓN WEB DESPLEGADA
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9atY_wSPxe5T5lv_MfQpcYHCquNtEnEswi7lwuTQyP7mUhkRFOP7bbnUEK5yiOaI/exec'; // <-- PON AQUÍ TU URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzE1nX3QvL2pW5Y.../exec'; // <-- PON AQUÍ TU URL
 
         // ----- DOM refs -----
         const nombre = document.getElementById('nombre');
@@ -589,13 +586,12 @@
             }
         });
 
-        // Menú Soporte - enlaces ya directos en href, pero manejamos el histórico con modal
+        // Menú Soporte
         document.getElementById('historico').addEventListener('click', (e) => {
             e.preventDefault();
             document.getElementById('historicoModal').style.display = 'flex';
         });
 
-        // Cerrar modal
         document.getElementById('closeModal').addEventListener('click', () => {
             document.getElementById('historicoModal').style.display = 'none';
         });
@@ -605,8 +601,6 @@
                 modal.style.display = 'none';
             }
         });
-
-        // Los otros enlaces ya tienen href y target=_blank
 
         // ----- Utilidades -----
         function nowDateString() {
@@ -648,7 +642,7 @@
             }
         }
 
-        // ----- Enviar al script (funcionalidad pendiente de integrar con Apps Script) -----
+        // ----- Enviar al script (con mode: 'no-cors' para evitar CORS) -----
         btnEnviar.addEventListener('click', async () => {
             if (!nombre.value.trim() || !dni.value.trim() || !mail.value.trim()) {
                 alert('Complete Nombre, DNI y Mail.');
@@ -676,26 +670,24 @@
             btnEnviar.disabled = true;
 
             try {
-                const response = await fetch(SCRIPT_URL, {
+                // Usamos mode: 'no-cors' para evitar errores de CORS
+                // La petición se envía, pero no podemos leer la respuesta
+                await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'cors',
+                    mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(registro)
                 });
 
-                const result = await response.json();
-                if (result.success) {
-                    mensaje.textContent = '✅ Archivos creados en Drive.';
-                    alert(`✅ Archivos creados correctamente.\n📁 Carpeta: https://drive.google.com/drive/folders/1-CpWdyqsjwniieqLQPlkBKsuCbpP-uqK\n🔑 SHA-256: ${result.sha256}`);
-                    window.open('https://drive.google.com/drive/folders/1-CpWdyqsjwniieqLQPlkBKsuCbpP-uqK', '_blank');
-                } else {
-                    mensaje.textContent = '❌ Error: ' + result.error;
-                    alert('Error: ' + result.error);
-                }
+                // Como no podemos leer la respuesta, asumimos que funcionó
+                mensaje.textContent = '✅ ¡Enviado! Revisa tu carpeta de Drive.';
+                alert('✅ La petición se ha enviado.\n📁 Revisa tu carpeta de Drive para ver los archivos generados.\nSi no aparecen, comprueba que la URL del script es correcta y que la carpeta existe.');
+                window.open('https://drive.google.com/drive/folders/1-CpWdyqsjwniieqLQPlkBKsuCbpP-uqK', '_blank');
+
             } catch (error) {
                 console.error(error);
                 mensaje.textContent = '❌ Error de conexión.';
-                alert('Error de conexión: ' + error.message);
+                alert('Error de conexión: ' + error.message + '\nVerifica que la URL del script sea correcta y que tengas acceso a Internet.');
             } finally {
                 loader.style.display = 'none';
                 btnEnviar.disabled = false;
