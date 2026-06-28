@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <style>
+        /* (Mismo CSS que ya tenías, no es necesario repetirlo) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #f5f9ff;
@@ -542,9 +543,8 @@
 
 <script>
     (function() {
-        // ----- CONFIGURACIÓN -----
-        // REEMPLAZA ESTA URL CON LA DE TU APLICACIÓN WEB DESPLEGADA
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzE1nX3QvL2pW5Y.../exec'; // <-- PON AQUÍ TU URL
+        // ----- URL CORRECTA del script desplegado -----
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9atY_wSPxe5T5lv_MfQpcYHCquNtEnEswi7lwuTQyP7mUhkRFOP7bbnUEK5yiOaI/exec';
 
         // ----- DOM refs -----
         const nombre = document.getElementById('nombre');
@@ -642,7 +642,7 @@
             }
         }
 
-        // ----- Enviar al script (con mode: 'no-cors' para evitar CORS) -----
+        // ----- Enviar al script con mode: 'cors' (para leer respuesta) -----
         btnEnviar.addEventListener('click', async () => {
             if (!nombre.value.trim() || !dni.value.trim() || !mail.value.trim()) {
                 alert('Complete Nombre, DNI y Mail.');
@@ -670,24 +670,30 @@
             btnEnviar.disabled = true;
 
             try {
-                // Usamos mode: 'no-cors' para evitar errores de CORS
-                // La petición se envía, pero no podemos leer la respuesta
-                await fetch(SCRIPT_URL, {
+                const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
+                    mode: 'cors',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(registro)
                 });
 
-                // Como no podemos leer la respuesta, asumimos que funcionó
-                mensaje.textContent = '✅ ¡Enviado! Revisa tu carpeta de Drive.';
-                alert('✅ La petición se ha enviado.\n📁 Revisa tu carpeta de Drive para ver los archivos generados.\nSi no aparecen, comprueba que la URL del script es correcta y que la carpeta existe.');
-                window.open('https://drive.google.com/drive/folders/1-CpWdyqsjwniieqLQPlkBKsuCbpP-uqK', '_blank');
+                if (!response.ok) {
+                    throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
+                }
 
+                const result = await response.json();
+                if (result.success) {
+                    mensaje.textContent = '✅ Archivos creados en Drive.';
+                    alert(`✅ Archivos creados correctamente.\n📁 Carpeta: https://drive.google.com/drive/folders/1-CpWdyqsjwniieqLQPlkBKsuCbpP-uqK\n🔑 SHA-256: ${result.sha256}`);
+                    window.open('https://drive.google.com/drive/folders/1-CpWdyqsjwniieqLQPlkBKsuCbpP-uqK', '_blank');
+                } else {
+                    mensaje.textContent = '❌ Error: ' + result.error;
+                    alert('Error: ' + result.error);
+                }
             } catch (error) {
                 console.error(error);
                 mensaje.textContent = '❌ Error de conexión.';
-                alert('Error de conexión: ' + error.message + '\nVerifica que la URL del script sea correcta y que tengas acceso a Internet.');
+                alert('Error de conexión: ' + error.message);
             } finally {
                 loader.style.display = 'none';
                 btnEnviar.disabled = false;
