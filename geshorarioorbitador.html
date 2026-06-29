@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <style>
-        /* (mismo CSS que antes, resumido para no alargar, pero debe estar completo) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #f5f9ff; font-family: "Inter", sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem 1rem; color: #1e293b; }
         .card { max-width: 1360px; width: 100%; background: rgba(255,255,255,0.75); backdrop-filter: blur(12px); border-radius: 48px; padding: 2.5rem 2.8rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.6); }
@@ -195,7 +194,7 @@
     </form>
 
     <div class="footer-info">
-        <span><i class="fas fa-star" style="color: #fbbf24;"></i> GesHoras V 3.4 · JSON</span>
+        <span><i class="fas fa-star" style="color: #fbbf24;"></i> GesHoras V 3.4 · SIN MAIL</span>
         <span style="margin-left: 1rem; color: #3b82f6;"><i class="fas fa-cloud-upload-alt"></i> Funciona en móvil, tablet y PC.</span>
     </div>
 </div>
@@ -220,7 +219,7 @@
 <script>
     (function() {
         // ============================================================
-        // URL del script (ACTUALIZAR CON LA URL DEL NUEVO SCRIPT)
+        // ACTUALIZAR CON LA URL DEL SCRIPT QUE ACABAS DE GENERAR
         // ============================================================
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwePG7EHVrjsJMh6xXe3o_GFy0cUdOl2qufmkuqR7KAbh_3wNz0e5AdNjWGTKCgUEA/exec';
 
@@ -392,7 +391,7 @@
             }
         }
 
-        // ----- Enviar con POST JSON (el método original que funcionaba) -----
+        // ----- Enviar con POST form-urlencoded (SIN MAIL) -----
         btnEnviar.addEventListener('click', async () => {
             if (!nombre.value.trim() || !dni.value.trim()) {
                 alert('⚠️ Complete Nombre y DNI.');
@@ -431,6 +430,8 @@
                 firma: firmaBase64
             };
 
+            const formBody = new URLSearchParams(registro).toString();
+
             loader.style.display = 'inline-block';
             mensaje.textContent = '⏳ Enviando...';
             btnEnviar.disabled = true;
@@ -439,37 +440,36 @@
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(registro)
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formBody
                 });
 
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
                 const texto = await response.text();
-                console.log('📥 Respuesta:', texto);
+                console.log('📥 Respuesta del servidor:', texto);
 
+                // Intentar parsear como JSON
                 let resultado;
                 try {
                     resultado = JSON.parse(texto);
                 } catch (e) {
-                    throw new Error(`Respuesta no válida: ${texto}`);
+                    // Si no es JSON, mostrar el texto plano
+                    alert('El servidor devolvió:\n' + texto);
+                    mensaje.textContent = '❌ El servidor devolvió texto plano.';
+                    return;
                 }
 
-                if (resultado.success) {
-                    mensaje.textContent = '✅ ¡Registro guardado correctamente!';
-                    alert(
-                        `✅ Datos guardados en Drive.\n\n` +
-                        `📁 Carpeta: ${resultado.carpeta}\n` +
-                        `🔑 SHA-256: ${resultado.sha256}\n` +
-                        `📄 Archivos: ${resultado.csvName}, ${resultado.txtName} y ${resultado.firmaName}`
-                    );
-                    window.open(resultado.carpeta, '_blank');
+                // Si el script devuelve los parámetros, significa que los datos llegaron
+                if (resultado.parametros && resultado.parametros.nombre) {
+                    // Los datos llegaron correctamente
+                    alert('✅ Datos recibidos correctamente por el servidor.\n\n' + JSON.stringify(resultado, null, 2));
+                    mensaje.textContent = '✅ ¡Datos recibidos! Ahora reemplaza el script por la versión definitiva.';
                 } else {
-                    mensaje.textContent = '❌ Error: ' + resultado.message;
-                    alert('❌ Error: ' + resultado.message);
+                    alert('⚠️ El servidor no recibió los datos correctamente.\n\nRespuesta:\n' + JSON.stringify(resultado, null, 2));
+                    mensaje.textContent = '❌ Error: datos no recibidos.';
                 }
+
             } catch (error) {
                 console.error('❌ Error:', error);
                 mensaje.textContent = '❌ Error de conexión.';
