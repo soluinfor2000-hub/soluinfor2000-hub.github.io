@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <style>
-        /* (mismo CSS que antes, no lo repito para no alargar) */
+        /* (mismo CSS que antes, resumido para no alargar, pero debe estar completo) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #f5f9ff; font-family: "Inter", sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem 1rem; color: #1e293b; }
         .card { max-width: 1360px; width: 100%; background: rgba(255,255,255,0.75); backdrop-filter: blur(12px); border-radius: 48px; padding: 2.5rem 2.8rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.6); }
@@ -195,7 +195,7 @@
     </form>
 
     <div class="footer-info">
-        <span><i class="fas fa-star" style="color: #fbbf24;"></i> GesHoras V 3.4 · SIN MAIL</span>
+        <span><i class="fas fa-star" style="color: #fbbf24;"></i> GesHoras V 3.4 · JSON</span>
         <span style="margin-left: 1rem; color: #3b82f6;"><i class="fas fa-cloud-upload-alt"></i> Funciona en móvil, tablet y PC.</span>
     </div>
 </div>
@@ -220,9 +220,9 @@
 <script>
     (function() {
         // ============================================================
-        // URL del script (ACTUALIZAR CON LA URL DEL SCRIPT DEFINITIVO)
+        // URL del script (ACTUALIZAR CON LA URL DEL NUEVO SCRIPT)
         // ============================================================
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwgvZ3TUCXZJypYydE_HKXACcoUP0BzF0xwQhM0RWA8TBh1v4jXIQOOicAE9ccSUivo/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwePG7EHVrjsJMh6xXe3o_GFy0cUdOl2qufmkuqR7KAbh_3wNz0e5AdNjWGTKCgUEA/exec';
 
         // ----- DOM refs -----
         const nombre = document.getElementById('nombre');
@@ -392,7 +392,7 @@
             }
         }
 
-        // ----- Enviar con POST form-urlencoded (SIN MAIL) -----
+        // ----- Enviar con POST JSON (el método original que funcionaba) -----
         btnEnviar.addEventListener('click', async () => {
             if (!nombre.value.trim() || !dni.value.trim()) {
                 alert('⚠️ Complete Nombre y DNI.');
@@ -431,8 +431,6 @@
                 firma: firmaBase64
             };
 
-            const formBody = new URLSearchParams(registro).toString();
-
             loader.style.display = 'inline-block';
             mensaje.textContent = '⏳ Enviando...';
             btnEnviar.disabled = true;
@@ -441,8 +439,10 @@
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'cors',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: formBody
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(registro)
                 });
 
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
