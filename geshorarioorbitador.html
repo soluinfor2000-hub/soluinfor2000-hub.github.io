@@ -546,7 +546,7 @@
     </form>
 
     <div class="footer-info">
-        <span><i class="fas fa-star" style="color: #fbbf24;"></i> GesHoras V 3.4 · POST url-encoded</span>
+        <span><i class="fas fa-star" style="color: #fbbf24;"></i> GesHoras V 3.4 · POST con form-urlencoded</span>
         <span style="margin-left: 1rem; color: #3b82f6;"><i class="fas fa-cloud-upload-alt"></i> Funciona en móvil, tablet y PC.</span>
     </div>
 </div>
@@ -565,14 +565,14 @@
         <div class="version-item"><h3>V 1.0 <small>(Junio 2026)</small></h3><p>Lanzamiento inicial.</p></div>
         <div class="version-item"><h3>V 2.0 <small>(Junio 2026)</small></h3><p>Mejoras: Fin Parada, geolocalización, turno único.</p></div>
         <div class="version-item"><h3>V 3.0 <small>(Junio 2026)</small></h3><p>Rediseño, menú Soporte, histórico.</p></div>
-        <div class="version-item"><h3>V 3.4 <small>(Junio 2026)</small></h3><p>POST con url-encoded, firma digital funcional.</p></div>
+        <div class="version-item"><h3>V 3.4 <small>(Junio 2026)</small></h3><p>POST con form-urlencoded, firma digital funcional.</p></div>
     </div>
 </div>
 
 <script>
     (function() {
         // ============================================================
-        // URL del script - REEMPLAZAR CON LA URL DE TU SCRIPT
+        // URL del script (ACTUALIZADA)
         // ============================================================
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwgvZ3TUCXZJypYydE_HKXACcoUP0BzF0xwQhM0RWA8TBh1v4jXIQOOicAE9ccSUivo/exec';
 
@@ -746,14 +746,16 @@
             }
         }
 
-        // ----- Enviar con POST url-encoded (sin CORS) -----
+        // ----- Enviar con POST form-urlencoded (SIN CORS) -----
         btnEnviar.addEventListener('click', async () => {
+            // Validar campos obligatorios
             if (!nombre.value.trim() || !dni.value.trim() || !mail.value.trim()) {
-                alert('Complete Nombre, DNI y Mail.');
+                alert('⚠️ Complete Nombre, DNI y Mail.');
                 return;
             }
             if (!fecha.value) fecha.value = nowDateString();
 
+            // Obtener firma (imagen en base64)
             let firmaBase64 = '';
             if (firmaGuardada) {
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -770,6 +772,7 @@
                 }
             }
 
+            // Preparar datos
             const registro = {
                 nombre: nombre.value.trim(),
                 dni: dni.value.trim(),
@@ -789,8 +792,9 @@
             // Convertir a form-urlencoded
             const formBody = new URLSearchParams(registro).toString();
 
+            // Mostrar loader
             loader.style.display = 'inline-block';
-            mensaje.textContent = 'Enviando...';
+            mensaje.textContent = '⏳ Enviando...';
             btnEnviar.disabled = true;
 
             try {
@@ -808,13 +812,13 @@
                 }
 
                 const texto = await response.text();
-                console.log('Respuesta del servidor:', texto);
+                console.log('📥 Respuesta del servidor:', texto);
 
                 let resultado;
                 try {
                     resultado = JSON.parse(texto);
                 } catch (e) {
-                    throw new Error(`El servidor devolvió:\n${texto}`);
+                    throw new Error(`El servidor devolvió texto plano:\n${texto}`);
                 }
 
                 if (resultado.success) {
@@ -828,12 +832,12 @@
                     window.open(resultado.carpeta, '_blank');
                 } else {
                     mensaje.textContent = '❌ Error: ' + resultado.message;
-                    alert('Error: ' + resultado.message);
+                    alert('❌ Error: ' + resultado.message);
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('❌ Error:', error);
                 mensaje.textContent = '❌ Error de conexión.';
-                alert('Error: ' + error.message);
+                alert('❌ Error: ' + error.message);
             } finally {
                 loader.style.display = 'none';
                 btnEnviar.disabled = false;
