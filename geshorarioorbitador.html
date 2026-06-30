@@ -30,7 +30,6 @@
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.5);
             border: 1px solid rgba(255,255,255,0.6);
         }
-        /* (El CSS es el mismo que tenías, no lo repito para no alargar, pero debe estar completo) */
         .menu-bar { display: flex; justify-content: flex-end; margin-bottom: 0.5rem; position: relative; }
         .menu-dropdown { position: relative; display: inline-block; }
         .menu-dropdown > button {
@@ -313,8 +312,8 @@
 
 <script>
     (function() {
-        // URL del script (ACTUALIZADA)
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7HffrrILKoIVmoFVqFoUtEEq8xJ6aqw1Xmj4jANoCLXzk1DprXBdtyJka_AgB9qU/exec';
+        // URL del script (actualizada)
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxhSm0UJcSrpFu_fndLpagh--DL8XoZBHCBQcdp6TjvNun25RQOotRhnDrLgK_yY4B7/exec';
 
         // DOM refs
         const nombre = document.getElementById('nombre');
@@ -581,7 +580,8 @@
                         `✅ Datos guardados en Drive.\n\n` +
                         `📁 Carpeta: ${resultado.carpeta}\n` +
                         `🔑 SHA-256: ${resultado.sha256}\n` +
-                        `📄 Archivos: ${resultado.csvName}, ${resultado.txtName} y ${resultado.firmaName}`
+                        `📄 Archivos: ${resultado.csvName}, ${resultado.txtName}\n` +
+                        `🔗 Enlace firma: ${resultado.firmaEnlace || 'Sin firma'}`
                     );
                     window.open(resultado.carpeta, '_blank');
                 } else {
