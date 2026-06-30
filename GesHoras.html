@@ -1,7 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-   position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); justify-content: center; align-items: center; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>GesHoras V 3.4</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        /* (Mismo CSS de siempre, no lo repito por espacio. Usa el mismo que tenías) */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #f5f9ff; font-family: "Inter", sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem 1rem; color: #1e293b; }
+        .card { max-width: 1360px; width: 100%; background: rgba(255,255,255,0.75); backdrop-filter: blur(12px); border-radius: 48px; padding: 2.5rem 2.8rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.6); }
+        .menu-bar { display: flex; justify-content: flex-end; margin-bottom: 0.5rem; position: relative; }
+        .menu-dropdown { position: relative; display: inline-block; }
+        .menu-dropdown > button { background: transparent; border: none; padding: 0.5rem 1rem; font-weight: 500; color: #1e293b; cursor: pointer; border-radius: 8px; transition: background 0.2s; font-size: 0.9rem; }
+        .menu-dropdown > button:hover { background: rgba(0,0,0,0.05); }
+        .menu-dropdown .dropdown-content { display: none; position: absolute; right: 0; background: white; min-width: 220px; box-shadow: 0 12px 30px -10px rgba(0,0,0,0.2); border-radius: 16px; padding: 0.5rem 0; z-index: 10; border: 1px solid rgba(0,0,0,0.05); }
+        .menu-dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { display: block; padding: 0.6rem 1.5rem; color: #1e293b; text-decoration: none; font-size: 0.9rem; transition: background 0.15s; cursor: pointer; }
+        .dropdown-content a:hover { background: #f1f5f9; }
+        .dropdown-content i { margin-right: 10px; color: #3b82f6; width: 18px; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); justify-content: center; align-items: center; }
         .modal-content { background-color: white; margin: 5% auto; padding: 2rem; border-radius: 32px; max-width: 700px; width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3); position: relative; max-height: 80vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e9edf4; padding-bottom: 1rem; margin-bottom: 1.5rem; }
         .modal-header h2 { font-size: 1.5rem; font-weight: 600; color: #0f172a; }
@@ -160,7 +181,7 @@
 
         <div class="fila-acciones">
             <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-                <button type="button" class="btn btn-success" id="btnEnviar"><i class="fas fa-paper-plane"></i> Enviar</button>
+                <button type="button" class="btn btn-success" id="btnEnviar"><i class="fas fa-paper-plane"></i> Enviar (añade a la hoja maestra)</button>
                 <div class="loader" id="loader"></div>
                 <span id="mensaje"></span>
             </div>
@@ -168,7 +189,7 @@
     </form>
 
     <div class="footer-info">
-        <span><i class="fas fa-star" style="color: #fbbf24;"></i> GesHoras V 3.4</span>
+        <span><i class="fas fa-star" style="color: #fbbf24;"></i> GesHoras V 3.4 · Base de datos centralizada</span>
         <span style="margin-left: 1rem; color: #3b82f6;"><i class="fas fa-cloud-upload-alt"></i> Funciona en móvil, tablet y PC.</span>
     </div>
 </div>
@@ -181,7 +202,7 @@
         </div>
         <div class="app-desc">
             <i class="fas fa-info-circle" style="color:#2563eb;"></i> 
-            <strong>GesHoras</strong> es una aplicación para el control horario de trabajadores, con firma digital.
+            <strong>GesHoras</strong> es una aplicación para el control horario de trabajadores, con firma digital. Todos los registros se almacenan en una hoja maestra centralizada.
         </div>
         <div class="version-item"><h3>V 1.0 <small>(Junio 2026)</small></h3><p>Lanzamiento inicial.</p></div>
         <div class="version-item"><h3>V 2.0 <small>(Junio 2026)</small></h3><p>Mejoras: Fin Parada, geolocalización, turno único.</p></div>
@@ -192,9 +213,12 @@
 
 <script>
     (function() {
-        // URL del script (ACTUALIZADA CON LA NUEVA)
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz8Sgw6kvjF1OIB2Zxrn3BdYEP7DVzFze1ucHcGZqHkEcBRwYYmw3LqYcmcnCzAGw1f/exec';
+        // ============================================================
+        // ACTUALIZA ESTA URL CON LA QUE OBTENGAS AL DESPLEGAR
+        // ============================================================
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyei1vjNORHT7Y3DsrhZMQ6sOGuRtZ9ov9lC7YZhM56ma-aYW-Qvg0ZknW0tKRx2KKICg/exec';
 
+        // DOM refs
         const nombre = document.getElementById('nombre');
         const dni = document.getElementById('dni');
         const fecha = document.getElementById('fecha');
@@ -295,6 +319,7 @@
             firmaStatus.style.color = '#0b3b2c';
         });
 
+        // Botones de acciones
         document.getElementById('btnParada').addEventListener('click', function() {
             paradaDescanso.value = nowTimeString();
         });
@@ -324,6 +349,7 @@
             }
         });
 
+        // Menú Soporte
         document.getElementById('historico').addEventListener('click', (e) => {
             e.preventDefault();
             document.getElementById('historicoModal').style.display = 'flex';
@@ -336,6 +362,7 @@
             if (e.target === modal) modal.style.display = 'none';
         });
 
+        // Utilidades de fecha
         function nowDateString() {
             const d = new Date();
             const dd = String(d.getDate()).padStart(2, '0');
@@ -365,9 +392,11 @@
             }
         }
 
+        // Inicializar fecha y hora de comienzo
         fecha.value = nowDateString();
         hComienzo.value = nowTimeString();
 
+        // Enviar
         btnEnviar.addEventListener('click', async () => {
             if (!nombre.value.trim() || !dni.value.trim()) {
                 alert('⚠️ Complete Nombre y DNI.');
@@ -421,9 +450,7 @@
                     body: formBody
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
                 const texto = await response.text();
                 console.log('📥 Respuesta del servidor:', texto);
@@ -438,7 +465,7 @@
                 }
 
                 if (resultado.success) {
-                    mensaje.textContent = '✅ ¡Registro guardado correctamente!';
+                    mensaje.textContent = '✅ ¡Registro añadido correctamente!';
                     alert(
                         `✅ Registro añadido a la hoja maestra.\n\n` +
                         `📊 Enlace a la hoja: ${resultado.spreadsheetUrl}\n` +
