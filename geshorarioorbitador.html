@@ -2,432 +2,244 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>GesHoras V 3.4</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
-    <style>
-        /* (CSS idéntico al que tenías, no lo repito para no alargar) */
-        /* Puedes copiar el CSS de tu versión anterior */
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GesHoras</title>
 </head>
 <body>
-<div class="card">
-    <!-- Menú Soporte -->
-    <div class="menu-bar">
-        <div class="menu-dropdown">
-            <button><i class="fas fa-headset"></i> Soporte <i class="fas fa-chevron-down" style="font-size:0.7rem; margin-left:6px;"></i></button>
-            <div class="dropdown-content">
-                <a id="historico"><i class="fas fa-history"></i> Histórico de versiones</a>
-                <a id="avisoPrivacidad" href="https://soluinfor2000.wixsite.com/soluinfor2000/pol%C3%ADca-de-privacidad" target="_blank"><i class="fas fa-shield-alt"></i> Aviso de Privacidad</a>
-                <a id="solicitudModificacion" href="https://forms.gle/e1CdTx2jiQ83xemG7" target="_blank"><i class="fas fa-edit"></i> Solicitud de modificación</a>
-                <a id="contactarSoporte" href="https://api.whatsapp.com/send?phone=34629813855&text=Bienvenidos%20a%20Fran%20Inform%C3%A1tico%2C%20soporte%20inform%C3%A1tico%20a%20domicilio.%20%C2%BFEn%20que%20podemos%20ayudarle%3F" target="_blank"><i class="fas fa-envelope"></i> Contactar con Soporte</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="subhead">
-        <h1><i class="fas fa-clock" style="color: #2563eb; font-size: 2rem;"></i> GesHoras V 3.4</h1>
-        <div class="empresa-badge"><i class="fas fa-building"></i> ORBITADOR LOGISTIC CIF: B56563851 EN C/ ALCALDE PEDRO GONZALEZ GONZALEZ 18. 28014 LEGANES</div>
-    </div>
-
-    <form id="formHorario">
-        <!-- Campos igual que antes -->
-        <div class="grid-form">
-            <div class="campo">
-                <label><i class="fas fa-user"></i> Nombre completo</label>
-                <input type="text" id="nombre" placeholder="Ej. Ana García" required>
-            </div>
-            <div class="campo">
-                <label><i class="fas fa-id-card"></i> DNI / NIE / CIF</label>
-                <input type="text" id="dni" placeholder="12345678A" required>
-            </div>
-            <div class="campo">
-                <label><i class="fas fa-calendar-day"></i> Fecha</label>
-                <div style="display: flex; gap: 6px; align-items: center;">
-                    <input type="text" id="fecha" placeholder="dd:mm:aaaa" readonly style="background:#f4f7fc; max-width:120px; text-align:center;">
-                    <button type="button" class="btn btn-outline" id="btnFecha" style="padding: 0.5rem 1rem;"><i class="fas fa-clock"></i> Fecha</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="fila-horarios">
-            <!-- Turno, H. Comienzo, Parada, Fin Parada, H. Finalización -->
-            <div class="campo" style="flex: 0 0 auto;">
-                <label><i class="fas fa-exchange-alt"></i> Turno</label>
-                <select id="turnoSelect" style="max-width:140px;">
-                    <option value="MAÑANAS">MAÑANAS</option>
-                    <option value="TARDES">TARDES</option>
-                </select>
-            </div>
-            <div class="campo" style="flex: 0 0 auto;">
-                <label><i class="fas fa-play"></i> H. Comienzo</label>
-                <div style="display: flex; gap: 6px; align-items: center;">
-                    <input type="text" id="hComienzo" placeholder="hh:mm:ss" readonly style="background:#f4f7fc; max-width:110px; text-align:center;">
-                    <button type="button" class="btn btn-outline" id="btnComienzo" style="padding: 0.5rem 1rem;"><i class="fas fa-hourglass-start"></i> </button>
-                </div>
-            </div>
-            <div class="campo" style="flex: 0 0 auto;">
-                <label><i class="fas fa-pause"></i> Parada</label>
-                <div style="display: flex; gap: 6px; align-items: center;">
-                    <input type="text" id="paradaDescanso" placeholder="hh:mm:ss" readonly style="background:#f4f7fc; max-width:110px; text-align:center;">
-                    <button type="button" class="btn btn-outline" id="btnParada" style="padding: 0.5rem 1rem;"><i class="fas fa-coffee"></i> </button>
-                </div>
-            </div>
-            <div class="campo" style="flex: 0 0 auto;">
-                <label><i class="fas fa-check"></i> Fin Parada</label>
-                <div style="display: flex; gap: 6px; align-items: center;">
-                    <input type="text" id="finParadaDescanso" placeholder="hh:mm:ss" readonly style="background:#f4f7fc; max-width:110px; text-align:center;">
-                    <button type="button" class="btn btn-outline" id="btnFinParada" style="padding: 0.5rem 1rem;"><i class="fas fa-check"></i> </button>
-                </div>
-            </div>
-            <div class="campo" style="flex: 0 0 auto;">
-                <label><i class="fas fa-flag-checkered"></i> H. Finalización</label>
-                <div style="display: flex; gap: 6px; align-items: center;">
-                    <input type="text" id="finalizacion" placeholder="hh:mm:ss" readonly style="background:#f4f7fc; max-width:110px; text-align:center;">
-                    <button type="button" class="btn btn-outline" id="btnFinalizar" style="padding: 0.5rem 1rem;"><i class="fas fa-stop"></i> </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Geolocalización -->
-        <div class="campo-geo">
-            <label><i class="fas fa-map-pin"></i> Geolocalización <span style="font-weight:400; color:#64748b; font-size:0.7rem;">(clic en el campo abre mapa)</span></label>
-            <div style="display: flex; gap: 6px; align-items: stretch;">
-                <textarea id="geolocalizacion" rows="1" placeholder="Enlace ubicación" readonly style="background:#f4f7fc; flex:1; min-height:44px; padding-top:10px;"></textarea>
-                <button type="button" class="btn btn-outline" id="btnGeo" style="padding: 0.5rem 1.2rem;"><i class="fas fa-location-dot"></i> Grabar GEO</button>
-                <button type="button" class="btn btn-outline" id="btnVerGeo" style="padding: 0.5rem 1.2rem;"><i class="fas fa-eye"></i> Ver GEO</button>
-            </div>
-        </div>
-
-        <!-- Delegación -->
-        <div class="fila-extra">
-            <div class="campo">
-                <label><i class="fas fa-building"></i> Delegación</label>
-                <select id="delegacion">
-                    <option value="Avila">Ávila</option>
-                    <option value="Segovia">Segovia</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Firma -->
-        <div class="firma-container">
-            <label><i class="fas fa-pen-fancy"></i> Firma digital <span style="font-weight:400; color:#64748b; font-size:0.7rem;">(dibuja con el dedo o lápiz)</span></label>
-            <div class="firma-canvas-wrapper">
-                <canvas id="firmaCanvas" width="500" height="200"></canvas>
-            </div>
-            <div class="firma-botones">
-                <button type="button" class="btn btn-outline" id="btnBorrarFirma"><i class="fas fa-eraser"></i> Borrar firma</button>
-                <button type="button" class="btn btn-outline" id="btnGuardarFirma"><i class="fas fa-save"></i> Guardar firma</button>
-                <span id="firmaStatus">Sin firmar</span>
-            </div>
-        </div>
-
-        <!-- Acciones -->
-        <div class="fila-acciones">
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-                <button type="button" class="btn btn-success" id="btnEnviar"><i class="fas fa-paper-plane"></i> Enviar (crea hoja + SHA + firma)</button>
-                <div class="loader" id="loader"></div>
-                <span id="mensaje"></span>
-            </div>
-        </div>
+    <h1>GesHoras</h1>
+    <form id="form">
+        <label>Nombre: <input type="text" id="nombre" required></label><br>
+        <label>DNI: <input type="text" id="dni" required></label><br>
+        <label>Fecha: <input type="text" id="fecha" readonly></label><br>
+        <label>Turno:
+            <select id="turno">
+                <option value="MAÑANAS">MAÑANAS</option>
+                <option value="TARDES">TARDES</option>
+            </select>
+        </label><br>
+        <label>H. Comienzo: <input type="text" id="hComienzo" readonly></label><br>
+        <label>Parada: <input type="text" id="parada" readonly></label><br>
+        <label>Fin Parada: <input type="text" id="finParada" readonly></label><br>
+        <label>H. Finalización: <input type="text" id="finalizacion" readonly></label><br>
+        <label>Delegación:
+            <select id="delegacion">
+                <option value="Avila">Ávila</option>
+                <option value="Segovia">Segovia</option>
+            </select>
+        </label><br>
+        <label>Geolocalización: <textarea id="geolocalizacion" readonly></textarea></label><br>
+        <button type="button" id="btnGeo">Grabar GEO</button><br>
+        <label>Firma: <canvas id="firmaCanvas" width="300" height="100" style="border:1px solid #000;"></canvas></label><br>
+        <button type="button" id="btnBorrarFirma">Borrar firma</button>
+        <button type="button" id="btnGuardarFirma">Guardar firma</button><br>
+        <button type="button" id="btnEnviar">Enviar</button>
+        <div id="mensaje"></div>
     </form>
 
-    <div class="footer-info">
-        <span><i class="fas fa-star" style="color: #fbbf24;"></i> GesHoras V 3.4 · POST con form-urlencoded</span>
-        <span style="margin-left: 1rem; color: #3b82f6;"><i class="fas fa-cloud-upload-alt"></i> Funciona en móvil, tablet y PC.</span>
-    </div>
-</div>
+    <script>
+        (function() {
+            // URL del script (ACTUALIZAR CON LA URL DE APLICACIÓN WEB)
+            const SCRIPT_URL = 'https://script.google.com/macros/s/TU_URL_AQUI/exec';
 
-<!-- Modal Histórico -->
-<div id="historicoModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2><i class="fas fa-history" style="color:#2563eb;"></i> Histórico de versiones</h2>
-            <span class="close-modal" id="closeModal">&times;</span>
-        </div>
-        <div class="app-desc">
-            <i class="fas fa-info-circle" style="color:#2563eb;"></i> 
-            <strong>GesHoras</strong> es una aplicación para el control horario de trabajadores, con firma digital.
-        </div>
-        <div class="version-item"><h3>V 1.0 <small>(Junio 2026)</small></h3><p>Lanzamiento inicial.</p></div>
-        <div class="version-item"><h3>V 2.0 <small>(Junio 2026)</small></h3><p>Mejoras: Fin Parada, geolocalización, turno único.</p></div>
-        <div class="version-item"><h3>V 3.0 <small>(Junio 2026)</small></h3><p>Rediseño, menú Soporte, histórico.</p></div>
-        <div class="version-item"><h3>V 3.4 <small>(Junio 2026)</small></h3><p>POST con form-urlencoded, firma digital funcional.</p></div>
-    </div>
-</div>
+            // Obtener referencias
+            const nombre = document.getElementById('nombre');
+            const dni = document.getElementById('dni');
+            const fecha = document.getElementById('fecha');
+            const turno = document.getElementById('turno');
+            const hComienzo = document.getElementById('hComienzo');
+            const parada = document.getElementById('parada');
+            const finParada = document.getElementById('finParada');
+            const finalizacion = document.getElementById('finalizacion');
+            const delegacion = document.getElementById('delegacion');
+            const geolocalizacion = document.getElementById('geolocalizacion');
+            const btnGeo = document.getElementById('btnGeo');
+            const btnEnviar = document.getElementById('btnEnviar');
+            const mensaje = document.getElementById('mensaje');
 
-<script>
-    (function() {
-        // ============================================================
-        // URL del script - ACTUALIZAR CON LA NUEVA URL
-        // ============================================================
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhR1-fim50T-XwxbJtiHdKRwy8YHnUMeD2m9SqKaYHR-Q76kWRswhvLAhj4aN-0jnZ/exec';
-
-        // ----- DOM refs -----
-        const nombre = document.getElementById('nombre');
-        const dni = document.getElementById('dni');
-        const fecha = document.getElementById('fecha');
-        const turnoSelect = document.getElementById('turnoSelect');
-        const hComienzo = document.getElementById('hComienzo');
-        const paradaDescanso = document.getElementById('paradaDescanso');
-        const finParadaDescanso = document.getElementById('finParadaDescanso');
-        const finalizacion = document.getElementById('finalizacion');
-        const geolocalizacion = document.getElementById('geolocalizacion');
-        const delegacion = document.getElementById('delegacion');
-        const btnEnviar = document.getElementById('btnEnviar');
-        const loader = document.getElementById('loader');
-        const mensaje = document.getElementById('mensaje');
-
-        // ---- Firma ----
-        const canvas = document.getElementById('firmaCanvas');
-        const ctx = canvas.getContext('2d');
-        const firmaStatus = document.getElementById('firmaStatus');
-        let drawing = false;
-        let firmaGuardada = false;
-
-        function resizeCanvas() {
-            canvas.width = 500;
-            canvas.height = 200;
-            ctx.lineWidth = 3;
+            // Firma
+            const canvas = document.getElementById('firmaCanvas');
+            const ctx = canvas.getContext('2d');
+            let dibujando = false;
+            let firmaGuardada = false;
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.lineWidth = 2;
             ctx.lineCap = 'round';
-            ctx.strokeStyle = '#1e293b';
-            ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
-        resizeCanvas();
+            ctx.strokeStyle = '#000';
 
-        function getPos(e) {
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-            let clientX, clientY;
-            if (e.touches) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
+            function getPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                let clientX, clientY;
+                if (e.touches) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                    e.preventDefault();
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                return {
+                    x: (clientX - rect.left) * scaleX,
+                    y: (clientY - rect.top) * scaleY
+                };
+            }
+
+            function iniciarDibujo(e) {
                 e.preventDefault();
-            } else {
-                clientX = e.clientX;
-                clientY = e.clientY;
+                dibujando = true;
+                const pos = getPos(e);
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+                firmaGuardada = false;
             }
-            return {
-                x: (clientX - rect.left) * scaleX,
-                y: (clientY - rect.top) * scaleY
-            };
-        }
 
-        function startDraw(e) {
-            e.preventDefault();
-            drawing = true;
-            const pos = getPos(e);
-            ctx.beginPath();
-            ctx.moveTo(pos.x, pos.y);
-            firmaGuardada = false;
-            firmaStatus.textContent = 'Dibujando...';
-            firmaStatus.style.color = '#2563eb';
-        }
-
-        function draw(e) {
-            e.preventDefault();
-            if (!drawing) return;
-            const pos = getPos(e);
-            ctx.lineTo(pos.x, pos.y);
-            ctx.stroke();
-        }
-
-        function endDraw(e) {
-            e.preventDefault();
-            drawing = false;
-            firmaStatus.textContent = 'Firma dibujada (sin guardar)';
-            firmaStatus.style.color = '#f59e0b';
-        }
-
-        canvas.addEventListener('mousedown', startDraw);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', endDraw);
-        canvas.addEventListener('mouseleave', endDraw);
-
-        canvas.addEventListener('touchstart', startDraw, { passive: false });
-        canvas.addEventListener('touchmove', draw, { passive: false });
-        canvas.addEventListener('touchend', endDraw, { passive: false });
-
-        document.getElementById('btnBorrarFirma').addEventListener('click', function() {
-            ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            firmaGuardada = false;
-            firmaStatus.textContent = 'Sin firmar';
-            firmaStatus.style.color = '#64748b';
-        });
-
-        document.getElementById('btnGuardarFirma').addEventListener('click', function() {
-            firmaGuardada = true;
-            firmaStatus.textContent = '✅ Firma guardada';
-            firmaStatus.style.color = '#0b3b2c';
-        });
-
-        // Botones de acciones
-        document.getElementById('btnFecha').addEventListener('click', () => { fecha.value = nowDateString(); });
-        document.getElementById('btnComienzo').addEventListener('click', () => { hComienzo.value = nowTimeString(); });
-        document.getElementById('btnParada').addEventListener('click', () => { paradaDescanso.value = nowTimeString(); });
-        document.getElementById('btnFinParada').addEventListener('click', () => { finParadaDescanso.value = nowTimeString(); });
-        document.getElementById('btnFinalizar').addEventListener('click', () => { finalizacion.value = nowTimeString(); });
-
-        // Geo
-        document.getElementById('btnGeo').addEventListener('click', obtenerGeolocalizacion);
-        document.getElementById('btnVerGeo').addEventListener('click', () => {
-            const url = geolocalizacion.value.trim();
-            if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
-                window.open(url, '_blank');
-            } else {
-                alert('No hay una ubicación válida grabada. Pulse "Grabar GEO" primero.');
+            function dibujar(e) {
+                e.preventDefault();
+                if (!dibujando) return;
+                const pos = getPos(e);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
             }
-        });
-        geolocalizacion.addEventListener('click', function() {
-            const url = this.value.trim();
-            if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
-                window.open(url, '_blank');
+
+            function finalizarDibujo(e) {
+                e.preventDefault();
+                dibujando = false;
             }
-        });
 
-        // Menú Soporte
-        document.getElementById('historico').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('historicoModal').style.display = 'flex';
-        });
-        document.getElementById('closeModal').addEventListener('click', () => {
-            document.getElementById('historicoModal').style.display = 'none';
-        });
-        window.addEventListener('click', (e) => {
-            const modal = document.getElementById('historicoModal');
-            if (e.target === modal) modal.style.display = 'none';
-        });
+            canvas.addEventListener('mousedown', iniciarDibujo);
+            canvas.addEventListener('mousemove', dibujar);
+            canvas.addEventListener('mouseup', finalizarDibujo);
+            canvas.addEventListener('mouseleave', finalizarDibujo);
+            canvas.addEventListener('touchstart', iniciarDibujo, { passive: false });
+            canvas.addEventListener('touchmove', dibujar, { passive: false });
+            canvas.addEventListener('touchend', finalizarDibujo, { passive: false });
 
-        // ----- Utilidades -----
-        function nowDateString() {
-            const d = new Date();
-            return `${String(d.getDate()).padStart(2,'0')}:${String(d.getMonth()+1).padStart(2,'0')}:${d.getFullYear()}`;
-        }
-        function nowTimeString() {
-            const d = new Date();
-            return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
-        }
-        function nowDateTimeForId() {
-            const d = new Date();
-            return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} - ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
-        }
+            document.getElementById('btnBorrarFirma').addEventListener('click', function() {
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                firmaGuardada = false;
+            });
 
-        function obtenerGeolocalizacion() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (pos) => {
-                        geolocalizacion.value = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
-                    },
-                    () => {
-                        geolocalizacion.value = 'https://maps.google.com/?q=40.3272,-3.7658';
-                    },
-                    { enableHighAccuracy: true, timeout: 8000 }
-                );
-            } else {
-                geolocalizacion.value = 'https://maps.google.com/?q=40.3272,-3.7658';
+            document.getElementById('btnGuardarFirma').addEventListener('click', function() {
+                firmaGuardada = true;
+            });
+
+            // Fecha y horas
+            function nowDateString() {
+                const d = new Date();
+                return String(d.getDate()).padStart(2,'0') + ':' + String(d.getMonth()+1).padStart(2,'0') + ':' + d.getFullYear();
             }
-        }
-
-        // ----- Enviar con POST form-urlencoded (SIN CORS) -----
-        btnEnviar.addEventListener('click', async () => {
-            if (!nombre.value.trim() || !dni.value.trim()) {
-                alert('⚠️ Complete Nombre y DNI.');
-                return;
+            function nowTimeString() {
+                const d = new Date();
+                return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0') + ':' + String(d.getSeconds()).padStart(2,'0');
             }
-            if (!fecha.value) fecha.value = nowDateString();
+            function nowDateTimeForId() {
+                const d = new Date();
+                return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear() + ' - ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0') + ':' + String(d.getSeconds()).padStart(2,'0');
+            }
 
-            let firmaBase64 = '';
-            if (firmaGuardada) {
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const pixels = imageData.data;
-                let isBlank = true;
-                for (let i = 0; i < pixels.length; i += 4) {
-                    if (pixels[i] < 255 || pixels[i+1] < 255 || pixels[i+2] < 255) {
-                        isBlank = false;
-                        break;
-                    }
+            fecha.value = nowDateString();
+            document.getElementById('btnFecha').addEventListener('click', function() { fecha.value = nowDateString(); });
+            document.getElementById('btnComienzo').addEventListener('click', function() { hComienzo.value = nowTimeString(); });
+            document.getElementById('btnParada').addEventListener('click', function() { parada.value = nowTimeString(); });
+            document.getElementById('btnFinParada').addEventListener('click', function() { finParada.value = nowTimeString(); });
+            document.getElementById('btnFinalizar').addEventListener('click', function() { finalizacion.value = nowTimeString(); });
+
+            // Geolocalización
+            btnGeo.addEventListener('click', function() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function(pos) {
+                            geolocalizacion.value = 'https://www.google.com/maps?q=' + pos.coords.latitude + ',' + pos.coords.longitude;
+                        },
+                        function() {
+                            geolocalizacion.value = 'https://maps.google.com/?q=40.3272,-3.7658';
+                        }
+                    );
+                } else {
+                    geolocalizacion.value = 'https://maps.google.com/?q=40.3272,-3.7658';
                 }
-                if (!isBlank) {
-                    firmaBase64 = canvas.toDataURL('image/png').split(',')[1];
-                }
-            }
+            });
 
-            const registro = {
-                nombre: nombre.value.trim(),
-                dni: dni.value.trim(),
-                fecha: fecha.value,
-                turno: turnoSelect.value,
-                hComienzo: hComienzo.value || '--:--:--',
-                paradaDescanso: paradaDescanso.value || '--:--:--',
-                finParadaDescanso: finParadaDescanso.value || '--:--:--',
-                finalizacion: finalizacion.value || '--:--:--',
-                delegacion: delegacion.value,
-                geolocalizacion: geolocalizacion.value || 'Sin ubicación',
-                idRegistro: nowDateTimeForId(),
-                firma: firmaBase64
-            };
-
-            const formBody = new URLSearchParams(registro).toString();
-
-            loader.style.display = 'inline-block';
-            mensaje.textContent = '⏳ Enviando...';
-            btnEnviar.disabled = true;
-
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: formBody
-                });
-
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-                const texto = await response.text();
-                console.log('📥 Respuesta del servidor:', texto);
-
-                let resultado;
-                try {
-                    resultado = JSON.parse(texto);
-                } catch (e) {
-                    alert('El servidor devolvió texto plano:\n' + texto);
-                    mensaje.textContent = '❌ El servidor devolvió texto plano.';
+            // Enviar
+            btnEnviar.addEventListener('click', async function() {
+                if (!nombre.value.trim() || !dni.value.trim()) {
+                    alert('Complete Nombre y DNI.');
                     return;
                 }
 
-                if (resultado.success) {
-                    mensaje.textContent = '✅ ¡Registro guardado correctamente!';
-                    alert(
-                        `✅ Datos guardados en Drive.\n\n` +
-                        `📁 Carpeta: ${resultado.carpeta}\n` +
-                        `🔑 SHA-256: ${resultado.sha256}\n` +
-                        `📄 Archivos: ${resultado.csvName}, ${resultado.txtName} y ${resultado.firmaName}`
-                    );
-                    window.open(resultado.carpeta, '_blank');
-                } else {
-                    mensaje.textContent = '❌ Error: ' + resultado.message;
-                    alert('❌ Error: ' + resultado.message);
+                let firmaBase64 = '';
+                if (firmaGuardada) {
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const pixels = imageData.data;
+                    let isBlank = true;
+                    for (let i = 0; i < pixels.length; i += 4) {
+                        if (pixels[i] < 255 || pixels[i+1] < 255 || pixels[i+2] < 255) {
+                            isBlank = false;
+                            break;
+                        }
+                    }
+                    if (!isBlank) {
+                        firmaBase64 = canvas.toDataURL('image/png').split(',')[1];
+                    }
                 }
-            } catch (error) {
-                console.error('❌ Error:', error);
-                mensaje.textContent = '❌ Error de conexión.';
-                alert('❌ Error: ' + error.message);
-            } finally {
-                loader.style.display = 'none';
-                btnEnviar.disabled = false;
-            }
-        });
 
-        fecha.value = nowDateString();
-        window.addEventListener('load', () => { setTimeout(obtenerGeolocalizacion, 500); });
-    })();
-</script>
+                const registro = {
+                    nombre: nombre.value.trim(),
+                    dni: dni.value.trim(),
+                    fecha: fecha.value,
+                    turno: turno.value,
+                    hComienzo: hComienzo.value || '--:--:--',
+                    paradaDescanso: parada.value || '--:--:--',
+                    finParadaDescanso: finParada.value || '--:--:--',
+                    finalizacion: finalizacion.value || '--:--:--',
+                    delegacion: delegacion.value,
+                    geolocalizacion: geolocalizacion.value || 'Sin ubicación',
+                    idRegistro: nowDateTimeForId(),
+                    firma: firmaBase64
+                };
+
+                const formBody = new URLSearchParams(registro).toString();
+
+                mensaje.textContent = 'Enviando...';
+
+                try {
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'cors',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: formBody
+                    });
+
+                    const texto = await response.text();
+                    console.log('Respuesta:', texto);
+
+                    let resultado;
+                    try {
+                        resultado = JSON.parse(texto);
+                    } catch (e) {
+                        alert('El servidor devolvió texto plano:\n' + texto);
+                        mensaje.textContent = 'Error: respuesta no JSON.';
+                        return;
+                    }
+
+                    if (resultado.success) {
+                        mensaje.textContent = '✅ ¡Registro guardado!';
+                        alert('Archivos creados en Drive.\nSHA-256: ' + resultado.sha256);
+                        window.open(resultado.carpeta, '_blank');
+                    } else {
+                        mensaje.textContent = '❌ Error: ' + resultado.message;
+                        alert('Error: ' + resultado.message);
+                    }
+                } catch (error) {
+                    console.error(error);
+                    mensaje.textContent = 'Error de conexión.';
+                    alert('Error: ' + error.message);
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
