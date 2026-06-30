@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <style>
-        /* (Estilos iguales que siempre, no los repito para no alargar) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #f5f9ff; font-family: "Inter", sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem 1rem; color: #1e293b; }
         .card { max-width: 1360px; width: 100%; background: rgba(255,255,255,0.75); backdrop-filter: blur(12px); border-radius: 48px; padding: 2.5rem 2.8rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.6); }
@@ -46,7 +45,7 @@
         .campo input:focus, .campo select:focus, .campo textarea:focus { outline: 2px solid #3b82f6; outline-offset: 2px; border-color: transparent; background: white; box-shadow: 0 8px 20px -8px rgba(59,130,246,0.15); }
         .campo input#nombre { min-width: 200px; width: 100%; }
         .campo input#dni { max-width: 160px; }
-        .campo input#fecha { max-width: 120px; text-align: center; }
+        .campo input#fecha { max-width: 120px; text-align: center; font-size: 0.9rem; } /* Ajustado para 10 caracteres */
         .campo select#turnoSelect { max-width: 140px; }
         .campo input#hComienzo, .campo input#paradaDescanso, .campo input#finParadaDescanso, .campo input#finalizacion { max-width: 110px; text-align: center; }
         .btn { background: white; border: none; padding: 0.65rem 1.5rem; border-radius: 40px; font-weight: 500; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 10px; color: #1e293b; box-shadow: 0 4px 8px -4px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.02); transition: all 0.2s cubic-bezier(0.2,0,0,1); cursor: pointer; background: #ffffffcc; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.6); letter-spacing: -0.01em; }
@@ -109,7 +108,7 @@
             </div>
             <div class="campo">
                 <label><i class="fas fa-calendar-day"></i> Fecha</label>
-                <input type="text" id="fecha" readonly style="background:#f4f7fc; max-width:120px; text-align:center;">
+                <input type="text" id="fecha" readonly style="background:#f4f7fc; max-width:120px; text-align:center; font-size:0.9rem;">
             </div>
         </div>
 
@@ -213,7 +212,7 @@
 
 <script>
     (function() {
-        // URL del script (actualizada con la nueva)
+        // URL del script (actualizada con la nueva que has generado)
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz8_sYpzHaMYgdmsDfrOz1fPH8z10KQBx_q8wBwLRAkFnE_XWNGhT5a9K_Ca5wfDM3o/exec';
 
         // DOM refs
@@ -412,7 +411,7 @@
                 return;
             }
 
-            // Actualizar fecha y hora antes de enviar
+            // Actualizar fecha y hora antes de enviar (por si el usuario ha estado mucho tiempo)
             fecha.value = nowDateString();
             hComienzo.value = nowTimeString();
 
@@ -475,7 +474,7 @@
                 }
 
                 if (resultado.success) {
-                    mensaje.textContent = '✅ ¡Registro guardado correctamente!';
+                    mensaje.textContent = '✅ ¡Hoja de cálculo creada correctamente!';
                     alert(
                         `✅ Hoja de cálculo creada en Drive.\n\n` +
                         `📁 Carpeta: ${resultado.carpeta}\n` +
