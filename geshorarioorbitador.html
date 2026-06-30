@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <style>
-        /* (ESTILOS COMPLETOS, IGUAL QUE ANTES) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #f5f9ff; font-family: "Inter", sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem 1rem; color: #1e293b; }
         .card { max-width: 1360px; width: 100%; background: rgba(255,255,255,0.75); backdrop-filter: blur(12px); border-radius: 48px; padding: 2.5rem 2.8rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.6); }
@@ -443,7 +442,6 @@
                 finalizacion: finalizacion.value || '--:--:--',
                 delegacion: delegacion.value,
                 geolocalizacion: geolocalizacion.value || 'Sin ubicación',
-                idRegistro: nowDateTimeForId(),
                 firma: firmaBase64
             };
 
@@ -478,13 +476,12 @@
                 if (resultado.success) {
                     mensaje.textContent = '✅ ¡Registro guardado correctamente!';
                     alert(
-                        `✅ Datos guardados en Drive.\n\n` +
+                        `✅ Hoja de cálculo creada en Drive.\n\n` +
                         `📁 Carpeta: ${resultado.carpeta}\n` +
-                        `🔑 SHA-256: ${resultado.sha256}\n` +
-                        `📄 Archivos: ${resultado.csvName}, ${resultado.txtName}\n` +
+                        `📊 Enlace a la hoja: ${resultado.spreadsheetUrl}\n` +
                         `🔗 Enlace firma: ${resultado.firmaEnlace || 'Sin firma'}`
                     );
-                    window.open(resultado.carpeta, '_blank');
+                    window.open(resultado.spreadsheetUrl, '_blank');
                 } else {
                     mensaje.textContent = '❌ Error: ' + resultado.message;
                     alert('❌ Error: ' + resultado.message);
