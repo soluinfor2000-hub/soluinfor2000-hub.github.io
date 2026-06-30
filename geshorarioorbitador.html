@@ -45,7 +45,7 @@
         .campo input:focus, .campo select:focus, .campo textarea:focus { outline: 2px solid #3b82f6; outline-offset: 2px; border-color: transparent; background: white; box-shadow: 0 8px 20px -8px rgba(59,130,246,0.15); }
         .campo input#nombre { min-width: 200px; width: 100%; }
         .campo input#dni { max-width: 160px; }
-        .campo input#fecha { max-width: 120px; text-align: center; font-size: 0.9rem; } /* Ajustado para 10 caracteres */
+        .campo input#fecha { max-width: 100px; text-align: center; font-size: 0.9rem; } /* Ajustado para dd/mm/aa (8 caracteres) */
         .campo select#turnoSelect { max-width: 140px; }
         .campo input#hComienzo, .campo input#paradaDescanso, .campo input#finParadaDescanso, .campo input#finalizacion { max-width: 110px; text-align: center; }
         .btn { background: white; border: none; padding: 0.65rem 1.5rem; border-radius: 40px; font-weight: 500; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 10px; color: #1e293b; box-shadow: 0 4px 8px -4px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.02); transition: all 0.2s cubic-bezier(0.2,0,0,1); cursor: pointer; background: #ffffffcc; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.6); letter-spacing: -0.01em; }
@@ -108,7 +108,7 @@
             </div>
             <div class="campo">
                 <label><i class="fas fa-calendar-day"></i> Fecha</label>
-                <input type="text" id="fecha" readonly style="background:#f4f7fc; max-width:120px; text-align:center; font-size:0.9rem;">
+                <input type="text" id="fecha" readonly style="background:#f4f7fc; max-width:100px; text-align:center; font-size:0.9rem;">
             </div>
         </div>
 
@@ -212,8 +212,10 @@
 
 <script>
     (function() {
-        // URL del script (actualizada con la nueva que has generado)
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz8_sYpzHaMYgdmsDfrOz1fPH8z10KQBx_q8wBwLRAkFnE_XWNGhT5a9K_Ca5wfDM3o/exec';
+        // ============================================================
+        // ACTUALIZA ESTA URL CON LA QUE OBTENGAS AL DESPLEGAR EL SCRIPT
+        // ============================================================
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwZvHsAVwfBmUXpJhy-yL5Ucg4k8hi78DyOPmAYpVZyY82dqGMclWLLHOUGUM07tsGt/exec';
 
         // DOM refs
         const nombre = document.getElementById('nombre');
@@ -316,7 +318,7 @@
             firmaStatus.style.color = '#0b3b2c';
         });
 
-        // Botones de acciones (solo Parada, Fin Parada y Finalizar)
+        // Botones de acciones
         document.getElementById('btnParada').addEventListener('click', function() {
             paradaDescanso.value = nowTimeString();
         });
@@ -359,13 +361,13 @@
             if (e.target === modal) modal.style.display = 'none';
         });
 
-        // Utilidades
+        // Utilidades de fecha (formato dd/mm/aa)
         function nowDateString() {
             const d = new Date();
             const dd = String(d.getDate()).padStart(2, '0');
             const mm = String(d.getMonth() + 1).padStart(2, '0');
-            const yyyy = d.getFullYear();
-            return `${dd}/${mm}/${yyyy}`;
+            const yy = String(d.getFullYear()).slice(-2);
+            return `${dd}/${mm}/${yy}`;
         }
 
         function nowTimeString() {
@@ -377,11 +379,11 @@
             const d = new Date();
             const dd = String(d.getDate()).padStart(2, '0');
             const mm = String(d.getMonth() + 1).padStart(2, '0');
-            const yyyy = d.getFullYear();
+            const yy = String(d.getFullYear()).slice(-2);
             const hh = String(d.getHours()).padStart(2, '0');
             const min = String(d.getMinutes()).padStart(2, '0');
             const ss = String(d.getSeconds()).padStart(2, '0');
-            return `${dd}/${mm}/${yyyy} - ${hh}:${min}:${ss}`;
+            return `${dd}/${mm}/${yy} - ${hh}:${min}:${ss}`;
         }
 
         function obtenerGeolocalizacion() {
@@ -400,7 +402,7 @@
             }
         }
 
-        // Inicializar fecha y hora de comienzo automáticamente al cargar
+        // Inicializar fecha y hora de comienzo
         fecha.value = nowDateString();
         hComienzo.value = nowTimeString();
 
@@ -411,7 +413,7 @@
                 return;
             }
 
-            // Actualizar fecha y hora antes de enviar (por si el usuario ha estado mucho tiempo)
+            // Actualizar fecha y hora antes de enviar
             fecha.value = nowDateString();
             hComienzo.value = nowTimeString();
 
