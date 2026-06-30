@@ -252,8 +252,8 @@
         .campo input#nombre { min-width: 200px; width: 100%; }
         .campo input#dni { max-width: 160px; }
         .campo input#fecha { max-width: 120px; text-align: center; }
+        .campo input#hComienzo { max-width: 110px; text-align: center; }
         .campo select#turnoSelect { max-width: 140px; }
-        .campo input#hComienzo,
         .campo input#paradaDescanso,
         .campo input#finParadaDescanso,
         .campo input#finalizacion {
@@ -451,10 +451,7 @@
             </div>
             <div class="campo">
                 <label><i class="fas fa-calendar-day"></i> Fecha</label>
-                <div style="display: flex; gap: 6px; align-items: center;">
-                    <input type="text" id="fecha" placeholder="dd:mm:aaaa" readonly style="background:#f4f7fc; max-width:120px; text-align:center;">
-                    <button type="button" class="btn btn-outline" id="btnFecha" style="padding: 0.5rem 1rem;"><i class="fas fa-clock"></i> Fecha</button>
-                </div>
+                <input type="text" id="fecha" readonly style="background:#f4f7fc; max-width:120px; text-align:center;">
             </div>
         </div>
 
@@ -469,10 +466,7 @@
             </div>
             <div class="campo" style="flex: 0 0 auto;">
                 <label><i class="fas fa-play"></i> H. Comienzo</label>
-                <div style="display: flex; gap: 6px; align-items: center;">
-                    <input type="text" id="hComienzo" placeholder="hh:mm:ss" readonly style="background:#f4f7fc; max-width:110px; text-align:center;">
-                    <button type="button" class="btn btn-outline" id="btnComienzo" style="padding: 0.5rem 1rem;"><i class="fas fa-hourglass-start"></i> </button>
-                </div>
+                <input type="text" id="hComienzo" readonly style="background:#f4f7fc; max-width:110px; text-align:center;">
             </div>
             <div class="campo" style="flex: 0 0 auto;">
                 <label><i class="fas fa-pause"></i> Parada</label>
@@ -542,7 +536,7 @@
     </form>
 
     <div class="footer-info">
-        <span><i class="fas fa-star" style="color: #fbbf24;"></i> GesHoras V 3.4 · POST con form-urlencoded</span>
+        <span><i class="fas fa-star" style="color: #fbbf24;"></i> GesHoras V 3.4 · Fecha y Hora fijas del sistema</span>
         <span style="margin-left: 1rem; color: #3b82f6;"><i class="fas fa-cloud-upload-alt"></i> Funciona en móvil, tablet y PC.</span>
     </div>
 </div>
@@ -673,16 +667,20 @@
             firmaStatus.style.color = '#0b3b2c';
         });
 
-        // Botones de acciones
-        document.getElementById('btnFecha').addEventListener('click', () => { fecha.value = nowDateString(); });
-        document.getElementById('btnComienzo').addEventListener('click', () => { hComienzo.value = nowTimeString(); });
-        document.getElementById('btnParada').addEventListener('click', () => { paradaDescanso.value = nowTimeString(); });
-        document.getElementById('btnFinParada').addEventListener('click', () => { finParadaDescanso.value = nowTimeString(); });
-        document.getElementById('btnFinalizar').addEventListener('click', () => { finalizacion.value = nowTimeString(); });
+        // ----- Botones de acciones (solo Parada, Fin Parada, Finalización) -----
+        document.getElementById('btnParada').addEventListener('click', function() {
+            paradaDescanso.value = nowTimeString();
+        });
+        document.getElementById('btnFinParada').addEventListener('click', function() {
+            finParadaDescanso.value = nowTimeString();
+        });
+        document.getElementById('btnFinalizar').addEventListener('click', function() {
+            finalizacion.value = nowTimeString();
+        });
 
-        // Geo
+        // ----- Geo -----
         document.getElementById('btnGeo').addEventListener('click', obtenerGeolocalizacion);
-        document.getElementById('btnVerGeo').addEventListener('click', () => {
+        document.getElementById('btnVerGeo').addEventListener('click', function() {
             const url = geolocalizacion.value.trim();
             if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
                 window.open(url, '_blank');
@@ -697,15 +695,15 @@
             }
         });
 
-        // Menú Soporte
-        document.getElementById('historico').addEventListener('click', (e) => {
+        // ----- Menú Soporte -----
+        document.getElementById('historico').addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('historicoModal').style.display = 'flex';
         });
-        document.getElementById('closeModal').addEventListener('click', () => {
+        document.getElementById('closeModal').addEventListener('click', function() {
             document.getElementById('historicoModal').style.display = 'none';
         });
-        window.addEventListener('click', (e) => {
+        window.addEventListener('click', function(e) {
             const modal = document.getElementById('historicoModal');
             if (e.target === modal) modal.style.display = 'none';
         });
@@ -713,24 +711,24 @@
         // ----- Utilidades -----
         function nowDateString() {
             const d = new Date();
-            return `${String(d.getDate()).padStart(2,'0')}:${String(d.getMonth()+1).padStart(2,'0')}:${d.getFullYear()}`;
+            return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear();
         }
         function nowTimeString() {
             const d = new Date();
-            return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+            return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0') + ':' + String(d.getSeconds()).padStart(2,'0');
         }
         function nowDateTimeForId() {
             const d = new Date();
-            return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} - ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+            return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear() + ' - ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0') + ':' + String(d.getSeconds()).padStart(2,'0');
         }
 
         function obtenerGeolocalizacion() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    (pos) => {
-                        geolocalizacion.value = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                    function(pos) {
+                        geolocalizacion.value = 'https://www.google.com/maps?q=' + pos.coords.latitude + ',' + pos.coords.longitude;
                     },
-                    () => {
+                    function() {
                         geolocalizacion.value = 'https://maps.google.com/?q=40.3272,-3.7658';
                     },
                     { enableHighAccuracy: true, timeout: 8000 }
@@ -740,14 +738,24 @@
             }
         }
 
+        // ----- Fijar fecha y hora al cargar -----
+        function actualizarFechaHora() {
+            fecha.value = nowDateString();
+            hComienzo.value = nowTimeString();
+        }
+
         // ----- Enviar con POST form-urlencoded (SIN CORS) -----
-        btnEnviar.addEventListener('click', async () => {
+        btnEnviar.addEventListener('click', async function() {
+            // Validar
             if (!nombre.value.trim() || !dni.value.trim()) {
                 alert('⚠️ Complete Nombre y DNI.');
                 return;
             }
-            if (!fecha.value) fecha.value = nowDateString();
 
+            // Actualizar fecha y hora antes de enviar
+            actualizarFechaHora();
+
+            // Obtener firma
             let firmaBase64 = '';
             if (firmaGuardada) {
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -764,12 +772,13 @@
                 }
             }
 
+            // Datos
             const registro = {
                 nombre: nombre.value.trim(),
                 dni: dni.value.trim(),
                 fecha: fecha.value,
                 turno: turnoSelect.value,
-                hComienzo: hComienzo.value || '--:--:--',
+                hComienzo: hComienzo.value,
                 paradaDescanso: paradaDescanso.value || '--:--:--',
                 finParadaDescanso: finParadaDescanso.value || '--:--:--',
                 finalizacion: finalizacion.value || '--:--:--',
@@ -793,7 +802,7 @@
                     body: formBody
                 });
 
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                if (!response.ok) throw new Error('HTTP ' + response.status);
 
                 const texto = await response.text();
                 console.log('📥 Respuesta del servidor:', texto);
@@ -810,10 +819,10 @@
                 if (resultado.success) {
                     mensaje.textContent = '✅ ¡Registro guardado correctamente!';
                     alert(
-                        `✅ Datos guardados en Drive.\n\n` +
-                        `📁 Carpeta: ${resultado.carpeta}\n` +
-                        `🔑 SHA-256: ${resultado.sha256}\n` +
-                        `📄 Archivos: ${resultado.csvName}, ${resultado.txtName} y ${resultado.firmaName}`
+                        '✅ Datos guardados en Drive.\n\n' +
+                        '📁 Carpeta: ' + resultado.carpeta + '\n' +
+                        '🔑 SHA-256: ' + resultado.sha256 + '\n' +
+                        '📄 Archivos: ' + resultado.csvName + ', ' + resultado.txtName + ' y ' + resultado.firmaName
                     );
                     window.open(resultado.carpeta, '_blank');
                 } else {
@@ -830,8 +839,11 @@
             }
         });
 
-        fecha.value = nowDateString();
-        window.addEventListener('load', () => { setTimeout(obtenerGeolocalizacion, 500); });
+        // ----- Inicializar -----
+        actualizarFechaHora();
+        window.addEventListener('load', function() {
+            setTimeout(obtenerGeolocalizacion, 500);
+        });
     })();
 </script>
 </body>
