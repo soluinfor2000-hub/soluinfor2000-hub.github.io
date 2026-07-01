@@ -99,7 +99,7 @@
             width: 18px;
         }
 
-        /* Contenido principal (solo texto informativo) */
+        /* Contenido principal (texto informativo en una sola línea) */
         .main-content {
             text-align: center;
             padding: 3rem 1rem;
@@ -108,13 +108,15 @@
             font-size: 2.5rem;
             font-weight: 600;
             color: #0f172a;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
         .main-content p {
             font-size: 1.1rem;
             color: #475569;
-            max-width: 600px;
-            margin: 0 auto 2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.5;
+            white-space: nowrap; /* Fuerza una sola línea */
         }
 
         /* Pie de página común */
@@ -139,6 +141,8 @@
             max-width: 120px;
             height: auto;
             border-radius: 8px;
+            /* Asegura que la imagen se muestre */
+            display: block;
         }
         .footer-info .credits {
             font-size: 0.8rem;
@@ -156,6 +160,9 @@
             }
             .main-content h2 {
                 font-size: 1.8rem;
+            }
+            .main-content p {
+                white-space: normal; /* Permite saltos en móvil para que no se corte */
             }
         }
     </style>
@@ -187,16 +194,17 @@
         </div>
     </div>
 
-    <!-- Contenido principal (sin botones) -->
+    <!-- Contenido principal (texto en una sola línea en pantallas grandes) -->
     <div class="main-content">
         <h2><i class="fas fa-clock" style="color: #2563eb;"></i> Gestión de Horarios</h2>
         <p>Selecciona una opción del menú "Registros" para comenzar a fichar tu jornada laboral.</p>
     </div>
 
-    <!-- Pie de página común -->
+    <!-- Pie de página común con logo -->
     <div class="footer-info">
         <div class="title">GESTIÓN DE HORARIO</div>
         <div class="logo">
+            <!-- URL corregida con el parámetro correcto para mostrar imagen -->
             <img src="https://drive.google.com/uc?export=view&id=1HTsCHdETXanJTRZQ7Pf0vRn_YJrxZxP5" alt="Logo">
         </div>
         <div class="credits">Desarrollada por Soluinfor 2000 - Fran informático © 2025</div>
