@@ -4,19 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>GesHoras</title>
-    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <style>
         /* Reset y estilos base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #f5f9ff;
             font-family: "Inter", sans-serif;
@@ -38,21 +32,19 @@
             border: 1px solid rgba(255,255,255,0.6);
         }
 
-        /* ============================================
-           BARRA DE MENÚS (UNA SOLA LÍNEA)
-           ============================================ */
+        /* Menú en una sola línea (FORZADO) */
         .menu-bar {
             display: flex;
             justify-content: flex-end;
             align-items: center;
             gap: 1.5rem;
             margin-bottom: 0.5rem;
-            flex-wrap: nowrap;   /* <-- CLAVE: evita saltos de línea */
+            flex-wrap: nowrap !important;
         }
         .menu-dropdown {
             position: relative;
             display: inline-block;
-            flex-shrink: 0;      /* Evita que se encojan */
+            flex-shrink: 0;
         }
         .menu-dropdown > button {
             background: transparent;
@@ -64,7 +56,7 @@
             border-radius: 8px;
             transition: background 0.2s;
             font-size: 0.9rem;
-            white-space: nowrap; /* Evita que el texto del botón se divida */
+            white-space: nowrap;
         }
         .menu-dropdown > button:hover {
             background: rgba(0,0,0,0.05);
@@ -120,7 +112,7 @@
             max-width: 700px;
             margin: 0 auto;
             line-height: 1.5;
-            white-space: nowrap; /* Fuerza una sola línea en pantallas grandes */
+            white-space: nowrap;
         }
 
         /* Pie de página */
@@ -152,31 +144,24 @@
             color: #94a3b8;
         }
 
-        /* Responsive: en pantallas pequeñas se permite salto de línea */
+        /* Responsive: en móvil los menús pueden saltar */
         @media (max-width: 700px) {
-            .card {
-                padding: 1.5rem;
-            }
+            .card { padding: 1.5rem; }
             .menu-bar {
                 justify-content: center;
-                gap: 1rem;
-                flex-wrap: wrap; /* En móvil sí puede saltar */
+                gap: 0.8rem;
+                flex-wrap: wrap !important;
             }
-            .main-content h2 {
-                font-size: 1.8rem;
-            }
-            .main-content p {
-                white-space: normal; /* Permite saltos en móvil */
-            }
+            .main-content h2 { font-size: 1.8rem; }
+            .main-content p { white-space: normal; }
         }
     </style>
 </head>
 <body>
 <div class="card">
 
-    <!-- ===== BARRA DE MENÚS EN UNA SOLA LÍNEA ===== -->
+    <!-- MENÚ EN UNA SOLA LÍNEA -->
     <div class="menu-bar">
-        <!-- Menú Registros -->
         <div class="menu-dropdown">
             <button><i class="fas fa-clipboard-list"></i> Registros <i class="fas fa-chevron-down" style="font-size:0.7rem; margin-left:6px;"></i></button>
             <div class="dropdown-content">
@@ -186,7 +171,6 @@
                 <a href="RegFinalizacion.html"><i class="fas fa-flag-checkered"></i> R. Finalización</a>
             </div>
         </div>
-        <!-- Menú Soporte -->
         <div class="menu-dropdown">
             <button><i class="fas fa-headset"></i> Soporte <i class="fas fa-chevron-down" style="font-size:0.7rem; margin-left:6px;"></i></button>
             <div class="dropdown-content">
@@ -198,17 +182,17 @@
         </div>
     </div>
 
-    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <!-- CONTENIDO PRINCIPAL -->
     <div class="main-content">
         <h2><i class="fas fa-clock" style="color: #2563eb;"></i> Gestión de Horarios</h2>
         <p>Selecciona una opción del menú "Registros" para comenzar a fichar tu jornada laboral.</p>
     </div>
 
-    <!-- ===== PIE DE PÁGINA CON LOGO ===== -->
+    <!-- PIE DE PÁGINA CON LOGO -->
     <div class="footer-info">
         <div class="title">GESTIÓN DE HORARIO</div>
         <div class="logo">
-            <!-- URL CORRECTA para mostrar imagen desde Google Drive -->
+            <!-- URL DIRECTA DE LA IMAGEN (con export=view) -->
             <img src="https://drive.google.com/uc?export=view&id=1HTsCHdETXanJTRZQ7Pf0vRn_YJrxZxP5" alt="Logo">
         </div>
         <div class="credits">Desarrollada por Soluinfor 2000 - Fran informático © 2025</div>
@@ -217,16 +201,9 @@
 </div>
 
 <script>
-    // Manejador para el enlace "Histórico de versiones"
     document.getElementById('historico').addEventListener('click', function(e) {
         e.preventDefault();
-        alert(
-            'Histórico de versiones:\n\n' +
-            'V 1.0 - Lanzamiento inicial\n' +
-            'V 2.0 - Mejoras en la interfaz\n' +
-            'V 3.0 - Integración con Google Sheets\n' +
-            'V 3.4 - Versión actual con múltiples registros'
-        );
+        alert('Histórico de versiones:\n\nV 1.0 - Lanzamiento inicial\nV 2.0 - Mejoras en la interfaz\nV 3.0 - Integración con Google Sheets\nV 3.4 - Versión actual con múltiples registros');
     });
 </script>
 
