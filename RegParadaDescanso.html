@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>RegParadaDescanso</title>
-    <!-- Mismo CSS que RegComienzo.html (copiar el mismo bloque <style>) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <style>
         /* (Mismo CSS que en RegComienzo.html) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,25 +34,27 @@
         .menu-bar {
             display: flex;
             justify-content: flex-end;
+            align-items: center;
+            gap: 0.8rem;
             margin-bottom: 0.5rem;
-            position: relative;
-            gap: 1rem;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
         }
         .menu-dropdown {
             position: relative;
             display: inline-block;
+            flex-shrink: 0;
         }
         .menu-dropdown > button {
             background: transparent;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.6rem;
             font-weight: 500;
             color: #1e293b;
             cursor: pointer;
             border-radius: 8px;
             transition: background 0.2s;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            white-space: nowrap;
         }
         .menu-dropdown > button:hover {
             background: rgba(0,0,0,0.05);
@@ -59,7 +64,7 @@
             position: absolute;
             right: 0;
             background: white;
-            min-width: 220px;
+            min-width: 200px;
             box-shadow: 0 12px 30px -10px rgba(0,0,0,0.2);
             border-radius: 16px;
             padding: 0.5rem 0;
@@ -71,12 +76,13 @@
         }
         .dropdown-content a {
             display: block;
-            padding: 0.6rem 1.5rem;
+            padding: 0.5rem 1.2rem;
             color: #1e293b;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: background 0.15s;
             cursor: pointer;
+            white-space: nowrap;
         }
         .dropdown-content a:hover {
             background: #f1f5f9;
@@ -198,6 +204,12 @@
             border-top: 1px solid rgba(0,0,0,0.04);
             padding-top: 1.2rem;
         }
+        .footer-info .title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
         .footer-info .logo {
             display: flex;
             justify-content: center;
@@ -207,11 +219,7 @@
             max-width: 120px;
             height: auto;
             border-radius: 8px;
-        }
-        .footer-info .title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #0f172a;
+            display: block;
         }
         .footer-info .credits {
             font-size: 0.8rem;
@@ -238,14 +246,13 @@
         }
         @media (max-width: 700px) {
             .card { padding: 1.5rem; }
-            .menu-bar { justify-content: center; }
+            .menu-bar { justify-content: center; flex-wrap: wrap; }
             .form-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 <div class="card">
-    <!-- Menú -->
     <div class="menu-bar">
         <div class="menu-dropdown">
             <button><i class="fas fa-clipboard-list"></i> Registros <i class="fas fa-chevron-down" style="font-size:0.7rem; margin-left:6px;"></i></button>
@@ -267,7 +274,6 @@
         </div>
     </div>
 
-    <!-- Formulario -->
     <form id="formHorario">
         <div class="form-grid">
             <div class="campo">
@@ -298,7 +304,6 @@
             </div>
         </div>
 
-        <!-- Acciones -->
         <div class="fila-acciones">
             <button type="button" class="btn btn-success" id="btnEnviar"><i class="fas fa-paper-plane"></i> Enviar registro</button>
             <div class="loader" id="loader"></div>
@@ -307,7 +312,6 @@
         </div>
     </form>
 
-    <!-- Pie -->
     <div class="footer-info">
         <div class="title">GESTIÓN DE HORARIO</div>
         <div class="logo">
@@ -334,13 +338,13 @@
             paradaDescanso.value = nowTimeString();
         });
 
+        document.getElementById('btnCerrar').addEventListener('click', function() {
+            window.close();
+        });
+
         document.getElementById('historico').addEventListener('click', function(e) {
             e.preventDefault();
             alert('Histórico de versiones:\n\nV 1.0 - Lanzamiento inicial\nV 2.0 - Mejoras en la interfaz\nV 3.0 - Integración con Google Sheets\nV 3.4 - Versión actual con múltiples registros');
-        });
-
-        document.getElementById('btnCerrar').addEventListener('click', function() {
-            window.close();
         });
 
         function nowDateString() {
