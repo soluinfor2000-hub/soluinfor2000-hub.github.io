@@ -1,0 +1,29 @@
+<script>
+    (function() {
+        const SCRIPT_URL = 'https://script.google.com/macros/s/TU_URL_UNIFICADA/exec';
+
+        // ...
+
+        btnEnviar.addEventListener('click', async () => {
+            // ...
+
+            const registro = {
+                accion: 'parada', // <-- CLAVE
+                nombre: nombre.value.trim(),
+                dni: dni.value.trim(),
+                fecha: fecha.value,
+                paradaDescanso: paradaDescanso.value,
+                delegacion: delegacion.value,
+                // Enviamos campos vacíos para no sobrescribir
+                hComienzo: '--:--:--',
+                finParadaDescanso: '--:--:--',
+                finalizacion: '--:--:--',
+                geolocalizacion: '',
+                firma: ''
+            };
+
+            const formBody = new URLSearchParams(registro).toString();
+            // ...
+        });
+    })();
+</script>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>RegComienzo</title>
+    <!-- (Mismo CSS que antes) -->
+</head>
+<body>
+    <!-- (Menú y estructura igual) -->
+    <form id="formHorario">
+        <!-- Campos idénticos -->
+        <!-- Acciones -->
+        <div class="fila-acciones">
+            <button type="button" class="btn btn-success" id="btnEnviar"><i class="fas fa-paper-plane"></i> Enviar registro</button>
+            ...
+        </div>
+    </form>
+    <!-- Pie de página -->
+
+    <script>
+        (function() {
+            // URL del script unificado (la misma para todos)
+            const SCRIPT_URL = 'https://script.google.com/macros/s/TU_URL_UNIFICADA/exec';
+
+            // ... (resto de código JavaScript)
+
+            btnEnviar.addEventListener('click', async () => {
+                // ... validaciones
+
+                const registro = {
+                    accion: 'comienzo', // <-- CLAVE
+                    nombre: nombre.value.trim(),
+                    dni: dni.value.trim(),
+                    fecha: fecha.value,
+                    turno: turnoSelect.value,
+                    hComienzo: hComienzo.value,
+                    geolocalizacion: geolocalizacion.value || 'Sin ubicación',
+                    firma: firmaBase64,
+                    // Los demás campos los enviamos vacíos para que el script los deje como están
+                    paradaDescanso: '--:--:--',
+                    finParadaDescanso: '--:--:--',
+                    finalizacion: '--:--:--',
+                    delegacion: ''
+                };
+
+                const formBody = new URLSearchParams(registro).toString();
+
+                // ... fetch y manejo de respuesta
+            });
+        })();
+    </script>
+</body>
+</html>
