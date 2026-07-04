@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>GES-HORAS V.5.0</title>
+    <!-- (Mismo CSS y estructura que RegParadaDescanso, solo cambia el campo y el botón a "Fin Parada") -->
+    <style>
+        /* (Mismo CSS que RegParadaDescanso) */
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="menu-bar">
+        <!-- (Menús iguales que RegParadaDescanso) -->
+    </div>
+    <form id="formHorario">
+        <div class="form-grid">
+            <div class="campo">
+                <label><i class="fas fa-user"></i> Nombre completo</label>
+                <input type="text" id="nombre" placeholder="Ej. Ana García" required>
+            </div>
+            <div class="campo">
+                <label><i class="fas fa-id-card"></i> DNI / NIE / CIF</label>
+                <input type="text" id="dni" placeholder="12345678A" required>
+            </div>
+            <div class="campo">
+                <label><i class="fas fa-calendar-day"></i> Fecha</label>
+                <input type="text" id="fecha" readonly>
+            </div>
+            <div class="campo">
+                <label><i class="fas fa-check"></i> Fin Parada</label>
+                <div style="display: flex; gap: 6px; align-items: center;">
+                    <input type="text" id="finParadaDescanso" readonly style="flex:1;">
+                    <button type="button" class="btn btn-outline" id="btnFinParada"><i class="fas fa-clock"></i> Tomar hora</button>
+                </div>
+            </div>
+            <div class="campo">
+                <label><i class="fas fa-building"></i> Delegación</label>
+                <select id="delegacion">
+                    <option value="Avila">Ávila</option>
+                    <option value="Segovia">Segovia</option>
+                </select>
+            </div>
+        </div>
+        <div class="fila-acciones">
+            <button type="button" class="btn btn-success" id="btnEnviar"><i class="fas fa-paper-plane"></i> Enviar registro</button>
+            <div class="loader" id="loader"></div>
+            <span id="mensaje"></span>
+        </div>
+    </form>
+    <div class="footer-info">
+        <div class="title">GESTIÓN DE HORARIO</div>
+        <div class="credits">Desarrollada por Soluinfor 2000 - Fran informático © 2025</div>
+    </div>
+</div>
+<script>
+    (function() {
+        const SCRIPT_URL = 'https://script.google.com/macros/s/TU_URL_AQUI/exec';
+        // (mismo JavaScript que RegParadaDescanso pero con btnFinParada y finParadaDescanso)
+    })();
+</script>
+</body>
+</html>
