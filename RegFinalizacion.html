@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <style>
-        /* (Mismo CSS que en los otros HTML, no lo repito por brevedad, pero debe estar completo) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #f5f9ff;
@@ -375,8 +374,10 @@
 
 <script>
     (function() {
-        // URL del script (actualizada)
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtz4phgMsxdPu3zBe5TjcTEP3icF-rkYjnJ3Pp4TimXV_qUOXFWzZn71MTLU3KR63_/exec';
+        // ============================================================
+        // URL del script para FIRMA FINAL (exclusivo de este HTML)
+        // ============================================================
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzsjSbY33e9cuINK_ugwXq3MBzXVLw8qEdZeK1Ssi6FBhAciVMrqCwlJS-gkO4zkY8m/exec';
 
         const nombre = document.getElementById('nombre');
         const dni = document.getElementById('dni');
@@ -387,7 +388,7 @@
         const loader = document.getElementById('loader');
         const mensaje = document.getElementById('mensaje');
 
-        // Firma
+        // ===== FIRMA =====
         const canvas = document.getElementById('firmaCanvas');
         const ctx = canvas.getContext('2d');
         const firmaStatus = document.getElementById('firmaStatus');
@@ -473,20 +474,24 @@
             firmaStatus.style.color = '#0b3b2c';
         });
 
+        // ===== BOTÓN TOMAR HORA =====
         document.getElementById('btnFinalizar').addEventListener('click', function() {
             finalizacion.value = nowTimeString();
         });
 
+        // ===== MENÚ MANUAL =====
         document.getElementById('manualLink').addEventListener('click', function(e) {
             e.preventDefault();
             window.open('ManualUsuario.html', '_blank', 'width=800,height=600,scrollbars=yes');
         });
 
+        // ===== HISTÓRICO =====
         document.getElementById('historico').addEventListener('click', function(e) {
             e.preventDefault();
             alert('Histórico de versiones:\n\nV 1.0 - Lanzamiento inicial\nV 2.0 - Mejoras en la interfaz\nV 3.0 - Integración con Google Sheets\nV 3.4 - Versión con múltiples registros\nV 4.0 - Firma digital\nV 5.0 - Nuevos menús');
         });
 
+        // ===== FUNCIONES DE FECHA Y HORA =====
         function nowDateString() {
             const d = new Date();
             const dd = String(d.getDate()).padStart(2, '0');
@@ -500,8 +505,10 @@
             return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
         }
 
+        // ===== INICIALIZACIÓN: FECHA AUTOMÁTICA AL CARGAR =====
         fecha.value = nowDateString();
 
+        // ===== ENVIAR =====
         btnEnviar.addEventListener('click', async () => {
             if (!nombre.value.trim() || !dni.value.trim()) {
                 alert('⚠️ Complete Nombre y DNI.');
@@ -531,16 +538,11 @@
             }
 
             const registro = {
-                tipo: 'finalizacion',
                 nombre: nombre.value.trim(),
                 dni: dni.value.trim(),
                 fecha: fecha.value,
                 finalizacion: finalizacion.value,
                 delegacion: delegacion.value,
-                hComienzo: '--:--:--',
-                paradaDescanso: '--:--:--',
-                finParadaDescanso: '--:--:--',
-                geolocalizacion: '',
                 firma: firmaBase64
             };
 
@@ -573,8 +575,8 @@
                 }
 
                 if (resultado.success) {
-                    mensaje.textContent = '✅ Registro enviado correctamente';
-                    alert('✅ Hora de finalización registrada correctamente.');
+                    mensaje.textContent = '✅ Firma final registrada correctamente';
+                    alert('✅ Firma final registrada correctamente.');
                     finalizacion.value = '';
                     ctx.fillStyle = 'white';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -582,7 +584,7 @@
                     firmaStatus.textContent = 'Sin firmar';
                     firmaStatus.style.color = '#64748b';
                 } else {
-                    mensaje.textContent = '❌ Error: ' + resultado.message';
+                    mensaje.textContent = '❌ Error: ' + resultado.message;
                     alert('❌ Error: ' + resultado.message);
                 }
             } catch (error) {
