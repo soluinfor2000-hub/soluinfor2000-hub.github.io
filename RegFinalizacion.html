@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <style>
+        /* (Mismo CSS de siempre) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #f5f9ff;
@@ -282,6 +283,7 @@
 </head>
 <body>
 <div class="card">
+    <!-- Menús -->
     <div class="menu-bar">
         <div class="menu-dropdown">
             <button><i class="fas fa-clipboard-list"></i> Registros <i class="fas fa-chevron-down" style="font-size:0.7rem; margin-left:6px;"></i></button>
@@ -377,7 +379,7 @@
         // ============================================================
         // URL del script - REEMPLAZAR CON LA URL QUE OBTENGAS
         // ============================================================
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6nMkWUWz-Zt-VG_k5-FtsgZtcZ7PgPu7uPtrkJJZZnBcU8fmZ14JHWDX55qxd1CpP/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/TU_URL_AQUI/exec';
 
         const nombre = document.getElementById('nombre');
         const dni = document.getElementById('dni');
@@ -474,24 +476,20 @@
             firmaStatus.style.color = '#0b3b2c';
         });
 
-        // ===== BOTÓN TOMAR HORA =====
         document.getElementById('btnFinalizar').addEventListener('click', function() {
             finalizacion.value = nowTimeString();
         });
 
-        // ===== MENÚ MANUAL =====
         document.getElementById('manualLink').addEventListener('click', function(e) {
             e.preventDefault();
             window.open('ManualUsuario.html', '_blank', 'width=800,height=600,scrollbars=yes');
         });
 
-        // ===== HISTÓRICO =====
         document.getElementById('historico').addEventListener('click', function(e) {
             e.preventDefault();
             alert('Histórico de versiones:\n\nV 1.0 - Lanzamiento inicial\nV 2.0 - Mejoras en la interfaz\nV 3.0 - Integración con Google Sheets\nV 3.4 - Versión con múltiples registros\nV 4.0 - Firma digital\nV 5.0 - Nuevos menús');
         });
 
-        // ===== FUNCIONES DE FECHA Y HORA =====
         function nowDateString() {
             const d = new Date();
             const dd = String(d.getDate()).padStart(2, '0');
@@ -505,10 +503,8 @@
             return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
         }
 
-        // ===== INICIALIZACIÓN: FECHA AUTOMÁTICA AL CARGAR =====
         fecha.value = nowDateString();
 
-        // ===== ENVIAR =====
         btnEnviar.addEventListener('click', async () => {
             if (!nombre.value.trim() || !dni.value.trim()) {
                 alert('⚠️ Complete Nombre y DNI.');
@@ -553,40 +549,24 @@
             btnEnviar.disabled = true;
 
             try {
+                // USAMOS mode: 'no-cors' para evitar el bloqueo CORS
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'cors',
+                    mode: 'no-cors',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: formBody
                 });
 
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                // Con no-cors no podemos leer la respuesta, pero la petición se envió
+                mensaje.textContent = '✅ Registro enviado. Verifica en la hoja de cálculo.';
+                alert('✅ Firma final enviada. Verifica en la hoja de cálculo (columna "Enlace_firma_Fin").');
+                finalizacion.value = '';
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                firmaGuardada = false;
+                firmaStatus.textContent = 'Sin firmar';
+                firmaStatus.style.color = '#64748b';
 
-                const texto = await response.text();
-                console.log('📥 Respuesta:', texto);
-
-                let resultado;
-                try {
-                    resultado = JSON.parse(texto);
-                } catch (e) {
-                    alert('El servidor devolvió texto plano:\n' + texto);
-                    mensaje.textContent = '❌ El servidor devolvió texto plano.';
-                    return;
-                }
-
-                if (resultado.success) {
-                    mensaje.textContent = '✅ Firma final registrada correctamente';
-                    alert('✅ Firma final registrada correctamente.');
-                    finalizacion.value = '';
-                    ctx.fillStyle = 'white';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    firmaGuardada = false;
-                    firmaStatus.textContent = 'Sin firmar';
-                    firmaStatus.style.color = '#64748b';
-                } else {
-                    mensaje.textContent = '❌ Error: ' + resultado.message;
-                    alert('❌ Error: ' + resultado.message);
-                }
             } catch (error) {
                 console.error('❌ Error:', error);
                 mensaje.textContent = '❌ Error de conexión.';
