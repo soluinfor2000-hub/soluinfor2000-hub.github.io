@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <style>
+        /* (Mismo CSS que en los otros HTML, no lo repito por brevedad, pero debe estar completo) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #f5f9ff;
@@ -282,7 +283,6 @@
 </head>
 <body>
 <div class="card">
-    <!-- Menús -->
     <div class="menu-bar">
         <div class="menu-dropdown">
             <button><i class="fas fa-clipboard-list"></i> Registros <i class="fas fa-chevron-down" style="font-size:0.7rem; margin-left:6px;"></i></button>
@@ -348,7 +348,6 @@
             </div>
         </div>
 
-        <!-- FIRMA DIGITAL -->
         <div class="firma-container">
             <label><i class="fas fa-pen-fancy"></i> Firma digital <span style="font-weight:400; color:#64748b; font-size:0.7rem;">(dibuja con el dedo o lápiz)</span></label>
             <div class="firma-canvas-wrapper">
@@ -376,12 +375,9 @@
 
 <script>
     (function() {
-        // ============================================================
         // URL del script (actualizada)
-        // ============================================================
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxutlshcGP0EkvRRjC1QLYvGsIsV4FtZzjMMrRqJv1if8YsylksKtcNVbMTnBrz3XbG/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzsjSbY33e9cuINK_ugwXq3MBzXVLw8qEdZeK1Ssi6FBhAciVMrqCwlJS-gkO4zkY8m/exec';
 
-        // ===== DOM REFS =====
         const nombre = document.getElementById('nombre');
         const dni = document.getElementById('dni');
         const fecha = document.getElementById('fecha');
@@ -391,7 +387,7 @@
         const loader = document.getElementById('loader');
         const mensaje = document.getElementById('mensaje');
 
-        // ===== FIRMA =====
+        // Firma
         const canvas = document.getElementById('firmaCanvas');
         const ctx = canvas.getContext('2d');
         const firmaStatus = document.getElementById('firmaStatus');
@@ -477,24 +473,20 @@
             firmaStatus.style.color = '#0b3b2c';
         });
 
-        // ===== BOTÓN TOMAR HORA =====
         document.getElementById('btnFinalizar').addEventListener('click', function() {
             finalizacion.value = nowTimeString();
         });
 
-        // ===== MENÚ MANUAL =====
         document.getElementById('manualLink').addEventListener('click', function(e) {
             e.preventDefault();
             window.open('ManualUsuario.html', '_blank', 'width=800,height=600,scrollbars=yes');
         });
 
-        // ===== HISTÓRICO =====
         document.getElementById('historico').addEventListener('click', function(e) {
             e.preventDefault();
             alert('Histórico de versiones:\n\nV 1.0 - Lanzamiento inicial\nV 2.0 - Mejoras en la interfaz\nV 3.0 - Integración con Google Sheets\nV 3.4 - Versión con múltiples registros\nV 4.0 - Firma digital\nV 5.0 - Nuevos menús');
         });
 
-        // ===== FUNCIONES DE FECHA Y HORA =====
         function nowDateString() {
             const d = new Date();
             const dd = String(d.getDate()).padStart(2, '0');
@@ -508,21 +500,8 @@
             return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
         }
 
-        function nowDateTimeForId() {
-            const d = new Date();
-            const dd = String(d.getDate()).padStart(2, '0');
-            const mm = String(d.getMonth() + 1).padStart(2, '0');
-            const yy = String(d.getFullYear()).slice(-2);
-            const hh = String(d.getHours()).padStart(2, '0');
-            const min = String(d.getMinutes()).padStart(2, '0');
-            const ss = String(d.getSeconds()).padStart(2, '0');
-            return `${dd}/${mm}/${yy} - ${hh}:${min}:${ss}`;
-        }
-
-        // ===== INICIALIZACIÓN: FECHA AUTOMÁTICA AL CARGAR =====
         fecha.value = nowDateString();
 
-        // ===== ENVIAR =====
         btnEnviar.addEventListener('click', async () => {
             if (!nombre.value.trim() || !dni.value.trim()) {
                 alert('⚠️ Complete Nombre y DNI.');
@@ -533,7 +512,6 @@
                 return;
             }
 
-            // Actualizar fecha antes de enviar
             fecha.value = nowDateString();
 
             let firmaBase64 = '';
@@ -604,7 +582,7 @@
                     firmaStatus.textContent = 'Sin firmar';
                     firmaStatus.style.color = '#64748b';
                 } else {
-                    mensaje.textContent = '❌ Error: ' + resultado.message;
+                    mensaje.textContent = '❌ Error: ' + resultado.message';
                     alert('❌ Error: ' + resultado.message);
                 }
             } catch (error) {
@@ -617,7 +595,6 @@
             }
         });
 
-        // ===== ACTUALIZAR FECHA CADA MINUTO =====
         setInterval(() => {
             fecha.value = nowDateString();
         }, 60000);
