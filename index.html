@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soluinfor 2000 - Soluciones Informáticas Profesionales</title>
+    <!-- Fuentes modernas e íconos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background-color: #f8fafc;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header & Navegación */
+        .header {
+            background: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .logo i {
+            color: #2563eb;
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .btn-whatsapp-nav {
+            background: #22c55e;
+            color: white !important;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s !important;
+        }
+
+        .btn-whatsapp-nav:hover {
+            background: #16a34a !important;
+            color: white !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e6f0ff 100%);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #0f172a;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            color: #2563eb;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #475569;
+            margin-bottom: 2rem;
+            max-width: 90%;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            padding: 0.875rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #2563eb;
+            padding: 0.875rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid #2563eb;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #e6f0ff;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Sección Servicios */
+        .services {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #0f172a;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        .service-icon {
+            background: #dbeafe;
+            width: 60px;
+            height: 60px;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-icon i {
+            font-size: 2rem;
+            color: #2563eb;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: #0f172a;
+        }
+
+        .service-card p {
+            color: #475569;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .service-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .service-link:hover {
+            gap: 0.5rem;
+        }
+
+        /* Sección Urgencias */
+        .emergency {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .emergency-tag {
+            background: #f97316;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .emergency h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .emergency-detail {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            align-items: center;
+        }
+
+        .emergency-detail i {
+            color: #f97316;
+            font-size: 1.5rem;
+        }
+
+        .btn-emergency {
+            background: #f97316;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s;
+        }
+
+        .btn-emergency:hover {
+            background: #ea580c;
+        }
+
+        .emergency-image {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Sección WhatsApp y Canales */
+        .whatsapp-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .whatsapp-card {
+            background: #f0f9ff;
+            border-radius: 2rem;
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            border: 1px solid #bae6fd;
+        }
+
+        .whatsapp-content h3 {
+            font-size: 2rem;
+            color: #0f172a;
+            margin-bottom: 1rem;
+        }
+
+        .whatsapp-content p {
+            color: #475569;
+            max-width: 600px;
+        }
+
+        .channels {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .channel-item {
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid #cbd5e1;
+        }
+
+        .channel-item i {
+            color: #2563eb;
+        }
+
+        .btn-whatsapp-large {
+            background: #25D366;
+            color: white;
+            padding: 1.25rem 2.5rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: background 0.2s;
+            box-shadow: 0 10px 15px -3px rgb(37 211 102 / 0.3);
+        }
+
+        .btn-whatsapp-large:hover {
+            background: #20b859;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand p {
+            color: #cbd5e1;
+            margin: 1rem 0;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                height: auto;
+                padding: 1rem 0;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .hero-grid, .emergency-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero p {
+                max-width: 100%;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .whatsapp-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .channels {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <i class="fas fa-microchip"></i>
+                    <span>Soluinfor 2000</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#inicio">Inicio</a>
+                    <a href="#servicios">Servicios</a>
+                    <a href="#contacto">Contacto</a>
+                    <a href="https://wa.me/34XXXXXXXXX" class="btn-whatsapp-nav" target="_blank">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="inicio" class="hero">
+            <div class="container">
+                <div class="hero-grid">
+                    <div>
+                        <span class="hero-badge">🏆 Expertos en tecnología</span>
+                        <h1>
+                            Soluciones informáticas <span>profesionales</span> para particulares y empresas
+                        </h1>
+                        <p>Más de 20 años ofreciendo asesoramiento, ciberseguridad, desarrollo web y soporte técnico con la máxima calidad.</p>
+                        <div class="hero-buttons">
+                            <a href="https://wa.me/34XXXXXXXXX" class="btn-primary" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
+                            </a>
+                            <a href="#servicios" class="btn-secondary">
+                                Ver servicios <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">+500</span>
+                                <span class="stat-label">Clientes satisfechos</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">24/7</span>
+                                <span class="stat-label">Soporte de urgencias</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- Puedes colocar aquí una ilustración o imagen representativa -->
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23e6f0ff'/%3E%3Ctext x='50' y='200' font-family='Inter' font-size='24' fill='%232563eb'%3E💻 Soluinfor 2000%3C/text%3E%3C/svg%3E" alt="Ilustración informática" style="max-width: 100%; border-radius: 2rem;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Servicios -->
+        <section id="servicios" class="services">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Servicios profesionales</h2>
+                    <p>Todo lo que necesitas para mantener tus sistemas seguros y actualizados</p>
+                </div>
+                <div class="services-grid">
+                    <!-- Servicio 1 -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Ciberseguridad</h3>
+                        <p>Protección avanzada para tus sistemas, asesoramiento en seguridad informática y prevención de amenazas.</p>
+                        <a href="#" class="service-link">Más info <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <!-- Servicio 2 -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <h3>Soporte remoto</h3>
+                        <p>Asistencia rápida, cómoda y económica desde cualquier lugar. Solucionamos tus problemas sin desplazamientos.</p>
+                        <a href="#" class="service-link">Más info <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <!-- Servicio 3 -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Desarrollo web</h3>
+                        <p>Creamos tu web, aplicaciones a medida y gestionamos dominios para potenciar tu presencia online.</p>
+                        <a href="#" class="service-link">Más info <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <!-- Servicio 4 -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Cursos y formación</h3>
+                        <p>Teleformación o cursos a tu ritmo. Aprende informática, ciberseguridad y más con nuestros expertos.</p>
+                        <a href="#" class="service-link">Más info <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <!-- Servicio 5 -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h3>Cita online</h3>
+                        <p>Elige el día y la hora que mejor te venga para tu consulta o servicio técnico sin esperas.</p>
+                        <a href="#" class="service-link">Reservar cita <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <!-- Servicio 6 -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h3>Servicio a domicilio</h3>
+                        <p>Nos desplazamos a tu ubicación para resolver incidencias que requieran atención presencial.</p>
+                        <a href="#" class="service-link">Ver horarios <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergencias -->
+        <section class="emergency">
+            <div class="container">
+                <div class="emergency-grid">
+                    <div>
+                        <span class="emergency-tag">⚡ URGENCIAS 24/7</span>
+                        <h2>¿Tienes una emergencia informática?</h2>
+                        <p>Disponemos de servicio de urgencias para solventar tus problemas críticos lo antes posible.</p>
+                        <div class="emergency-detail">
+                            <i class="fas fa-clock"></i>
+                            <span><strong>Horarios de urgencia:</strong> Lunes a Viernes 24h | Sábados y Domingos: 10:00 - 20:00</span>
+                        </div>
+                        <a href="https://wa.me/34XXXXXXXXX" class="btn-emergency" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Solicitar urgencia
+                        </a>
+                    </div>
+                    <div class="emergency-image">
+                        <i class="fas fa-headset" style="font-size: 4rem; color: #f97316; margin-bottom: 1rem; display: block;"></i>
+                        <h3 style="color: white; margin-bottom: 1rem;">Soporte inmediato</h3>
+                        <p style="color: #cbd5e1;">Respuesta en menos de 30 minutos para urgencias críticas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WhatsApp y Canales -->
+        <section id="contacto" class="whatsapp-section">
+            <div class="container">
+                <div class="whatsapp-card">
+                    <div class="whatsapp-content">
+                        <h3>📱 Conéctate con nosotros</h3>
+                        <p>Contacto directo por WhatsApp y acceso a nuestros canales exclusivos con noticias, consejos de ciberseguridad y más.</p>
+                        <div class="channels">
+                            <span class="channel-item"><i class="fab fa-whatsapp"></i> Canal WhatsApp</span>
+                            <span class="channel-item"><i class="fab fa-telegram"></i> Canal Telegram</span>
+                            <span class="channel-item"><i class="fas fa-newspaper"></i> Noticias</span>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/34XXXXXXXXX" class="btn-whatsapp-large" target="_blank">
+                        <i class="fab fa-whatsapp"></i> CONTACTAR POR WHATSAPP
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo" style="color: white;">
+                        <i class="fas fa-microchip"></i>
+                        <span>Soluinfor 2000</span>
+                    </div>
+                    <p>Soluciones informáticas profesionales con más de 20 años de experiencia.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Servicios</h4>
+                    <ul>
+                        <li><a href="#">Ciberseguridad</a></li>
+                        <li><a href="#">Soporte remoto</a></li>
+                        <li><a href="#">Desarrollo web</a></li>
+                        <li><a href="#">Cursos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Aviso legal</a></li>
+                        <li><a href="#">Política de cookies</a></li>
+                        <li><a href="#">Privacidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><i class="fas fa-phone" style="margin-right: 0.5rem;"></i> XXX XXX XXX</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> info@soluinfor2000.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Soluinfor 2000. Todos los derechos reservados. | Web profesional desarrollada por Soluinfor 2000</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
