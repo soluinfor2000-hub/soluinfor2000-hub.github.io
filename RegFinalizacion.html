@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <style>
+        /* (Mismo CSS de siempre, no lo repito para no alargar) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #f5f9ff;
@@ -282,7 +283,6 @@
 </head>
 <body>
 <div class="card">
-    <!-- Menús -->
     <div class="menu-bar">
         <div class="menu-dropdown">
             <button><i class="fas fa-clipboard-list"></i> Registros <i class="fas fa-chevron-down" style="font-size:0.7rem; margin-left:6px;"></i></button>
@@ -318,7 +318,6 @@
         </div>
     </div>
 
-    <!-- Formulario de Finalización -->
     <form id="formHorario">
         <div class="form-grid">
             <div class="campo">
@@ -349,7 +348,6 @@
             </div>
         </div>
 
-        <!-- FIRMA DIGITAL -->
         <div class="firma-container">
             <label><i class="fas fa-pen-fancy"></i> Firma digital <span style="font-weight:400; color:#64748b; font-size:0.7rem;">(dibuja con el dedo o lápiz)</span></label>
             <div class="firma-canvas-wrapper">
@@ -378,7 +376,7 @@
 <script>
     (function() {
         // ============================================================
-        // URL del script - ACTUALIZAR CON LA URL DE FIRMA FINAL
+        // URL del script - ACTUALIZAR CON LA URL DEL NUEVO SCRIPT
         // ============================================================
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUe7VvaCeYYWGRnATK9_j4efceF9pRLVM6WHHjGMesjDeUtvgyvsvoZenOF0XHqxEx/exec';
 
@@ -478,24 +476,20 @@
             firmaStatus.style.color = '#0b3b2c';
         });
 
-        // ===== BOTÓN TOMAR HORA =====
         document.getElementById('btnFinalizar').addEventListener('click', function() {
             finalizacion.value = nowTimeString();
         });
 
-        // ===== MENÚ MANUAL =====
         document.getElementById('manualLink').addEventListener('click', function(e) {
             e.preventDefault();
             window.open('ManualUsuario.html', '_blank', 'width=800,height=600,scrollbars=yes');
         });
 
-        // ===== HISTÓRICO =====
         document.getElementById('historico').addEventListener('click', function(e) {
             e.preventDefault();
             alert('Histórico de versiones:\n\nV 1.0 - Lanzamiento inicial\nV 2.0 - Mejoras en la interfaz\nV 3.0 - Integración con Google Sheets\nV 3.4 - Versión con múltiples registros\nV 4.0 - Firma digital\nV 5.0 - Nuevos menús');
         });
 
-        // ===== FUNCIONES DE FECHA Y HORA =====
         function nowDateString() {
             const d = new Date();
             const dd = String(d.getDate()).padStart(2, '0');
@@ -509,10 +503,8 @@
             return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
         }
 
-        // ===== INICIALIZACIÓN: FECHA AUTOMÁTICA AL CARGAR =====
         fecha.value = nowDateString();
 
-        // ===== ENVIAR =====
         btnEnviar.addEventListener('click', async () => {
             if (!nombre.value.trim() || !dni.value.trim()) {
                 alert('⚠️ Complete Nombre y DNI.');
