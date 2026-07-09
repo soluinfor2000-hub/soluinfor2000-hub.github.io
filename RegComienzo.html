@@ -10,163 +10,48 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #f5f9ff;
-            font-family: "Inter", sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 2rem 1rem;
-            color: #1e293b;
-        }
-        .card {
-            max-width: 1360px;
-            width: 100%;
-            background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(12px);
-            border-radius: 48px;
-            padding: 2.5rem 2.8rem;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.5);
-            border: 1px solid rgba(255,255,255,0.6);
-        }
-        .menu-bar {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 0.8rem;
-            margin-bottom: 0.5rem;
-            flex-wrap: nowrap;
-        }
-        .menu-dropdown {
-            position: relative;
-            display: inline-block;
-            flex-shrink: 0;
-        }
-        .menu-dropdown > button {
-            background: transparent;
-            border: none;
-            padding: 0.4rem 0.6rem;
-            font-weight: 500;
-            color: #1e293b;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background 0.2s;
-            font-size: 0.85rem;
-            white-space: nowrap;
-        }
+        body { background: #f5f9ff; font-family: "Inter", sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem 1rem; color: #1e293b; }
+        .card { max-width: 1360px; width: 100%; background: rgba(255,255,255,0.75); backdrop-filter: blur(12px); border-radius: 48px; padding: 2.5rem 2.8rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.6); }
+        .menu-bar { display: flex; justify-content: flex-end; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; flex-wrap: nowrap; }
+        .menu-dropdown { position: relative; display: inline-block; flex-shrink: 0; }
+        .menu-dropdown > button { background: transparent; border: none; padding: 0.4rem 0.6rem; font-weight: 500; color: #1e293b; cursor: pointer; border-radius: 8px; transition: background 0.2s; font-size: 0.85rem; white-space: nowrap; }
         .menu-dropdown > button:hover { background: rgba(0,0,0,0.05); }
-        .menu-dropdown .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background: white;
-            min-width: 200px;
-            box-shadow: 0 12px 30px -10px rgba(0,0,0,0.2);
-            border-radius: 16px;
-            padding: 0.5rem 0;
-            z-index: 10;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
+        .menu-dropdown .dropdown-content { display: none; position: absolute; right: 0; background: white; min-width: 200px; box-shadow: 0 12px 30px -10px rgba(0,0,0,0.2); border-radius: 16px; padding: 0.5rem 0; z-index: 10; border: 1px solid rgba(0,0,0,0.05); }
         .menu-dropdown:hover .dropdown-content { display: block; }
-        .dropdown-content a {
-            display: block;
-            padding: 0.5rem 1.2rem;
-            color: #1e293b;
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: background 0.15s;
-            cursor: pointer;
-            white-space: nowrap;
-        }
+        .dropdown-content a { display: block; padding: 0.5rem 1.2rem; color: #1e293b; text-decoration: none; font-size: 0.85rem; transition: background 0.15s; cursor: pointer; white-space: nowrap; }
         .dropdown-content a:hover { background: #f1f5f9; }
         .dropdown-content i { margin-right: 10px; color: #3b82f6; width: 18px; }
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.2rem 1.8rem;
-            background: rgba(255,255,255,0.3);
-            padding: 1.6rem 1.8rem;
-            border-radius: 36px;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255,255,255,0.7);
-            margin-bottom: 1.8rem;
-        }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem 1.8rem; background: rgba(255,255,255,0.3); padding: 1.6rem 1.8rem; border-radius: 36px; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.7); margin-bottom: 1.8rem; }
         .campo { display: flex; flex-direction: column; gap: 4px; }
-        .campo label {
-            font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
-            color: #64748b; display: flex; align-items: center; gap: 6px;
-        }
+        .campo label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: #64748b; display: flex; align-items: center; gap: 6px; }
         .campo label i { font-size: 0.8rem; color: #3b82f6; width: 16px; }
-        .campo input, .campo select, .campo textarea {
-            background: white; border: 1px solid #e9edf4; border-radius: 20px;
-            padding: 0.7rem 1.2rem; font-size: 0.9rem; font-weight: 450; color: #0f172a;
-            transition: all 0.15s ease; width: 100%; font-family: "Inter", sans-serif;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
-        }
-        .campo input:focus, .campo select:focus, .campo textarea:focus {
-            outline: 2px solid #3b82f6; outline-offset: 2px; border-color: transparent;
-            background: white; box-shadow: 0 8px 20px -8px rgba(59,130,246,0.15);
-        }
+        .campo input, .campo select, .campo textarea { background: white; border: 1px solid #e9edf4; border-radius: 20px; padding: 0.7rem 1.2rem; font-size: 0.9rem; font-weight: 450; color: #0f172a; transition: all 0.15s ease; width: 100%; font-family: "Inter", sans-serif; box-shadow: 0 2px 4px rgba(0,0,0,0.01); }
+        .campo input:focus, .campo select:focus, .campo textarea:focus { outline: 2px solid #3b82f6; outline-offset: 2px; border-color: transparent; background: white; box-shadow: 0 8px 20px -8px rgba(59,130,246,0.15); }
         .campo input[readonly] { background: #f4f7fc; }
-        .btn {
-            background: white; border: none; padding: 0.65rem 1.5rem; border-radius: 40px;
-            font-weight: 500; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center;
-            gap: 10px; color: #1e293b; box-shadow: 0 4px 8px -4px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.02);
-            transition: all 0.2s cubic-bezier(0.2,0,0,1); cursor: pointer;
-            background: #ffffffcc; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.6);
-            letter-spacing: -0.01em;
-        }
+        .btn { background: white; border: none; padding: 0.65rem 1.5rem; border-radius: 40px; font-weight: 500; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 10px; color: #1e293b; box-shadow: 0 4px 8px -4px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.02); transition: all 0.2s cubic-bezier(0.2,0,0,1); cursor: pointer; background: #ffffffcc; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.6); letter-spacing: -0.01em; }
         .btn i { font-size: 1rem; color: #2563eb; }
-        .btn:hover {
-            background: white; box-shadow: 0 12px 24px -12px rgba(0,0,0,0.2);
-            transform: scale(1.02) translateY(-2px); border-color: #b6c8f0;
-        }
+        .btn:hover { background: white; box-shadow: 0 12px 24px -12px rgba(0,0,0,0.2); transform: scale(1.02) translateY(-2px); border-color: #b6c8f0; }
         .btn-success { background: #0b3b2c; color: white; border: 1px solid #0b3b2c; }
         .btn-success i { color: #6ee7b7; }
         .btn-success:hover { background: #064e3b; border-color: #064e3b; }
         .btn-outline { background: transparent; border: 1px solid #d0d9e8; backdrop-filter: none; box-shadow: none; }
         .btn-outline:hover { background: #f8faff; border-color: #3b82f6; }
-        .fila-acciones {
-            display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start;
-            margin-top: 0.8rem; gap: 1rem;
-        }
-        .firma-container {
-            background: rgba(255,255,255,0.3); padding: 1.2rem 1.8rem; border-radius: 36px;
-            border: 1px solid rgba(255,255,255,0.7); margin-bottom: 1.8rem; display: flex; flex-direction: column; gap: 4px;
-        }
-        .firma-container label {
-            font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
-            color: #64748b; display: flex; align-items: center; gap: 6px;
-        }
+        .fila-acciones { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; margin-top: 0.8rem; gap: 1rem; }
+        .firma-container { background: rgba(255,255,255,0.3); padding: 1.2rem 1.8rem; border-radius: 36px; border: 1px solid rgba(255,255,255,0.7); margin-bottom: 1.8rem; display: flex; flex-direction: column; gap: 4px; }
+        .firma-container label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: #64748b; display: flex; align-items: center; gap: 6px; }
         .firma-container label i { font-size: 0.8rem; color: #3b82f6; width: 16px; }
-        .firma-canvas-wrapper {
-            position: relative; border: 2px dashed #b6c8f0; border-radius: 20px; overflow: hidden;
-            background: white; touch-action: none; width: 100%; max-width: 500px; margin: 0 auto;
-        }
-        #firmaCanvas {
-            display: block; width: 100%; height: auto; background: white; touch-action: none;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="30" viewBox="0 0 24 30"><circle cx="12" cy="12" r="10" fill="rgba(0,0,0,0.3)"/><circle cx="12" cy="12" r="6" fill="rgba(0,0,0,0.6)"/><circle cx="12" cy="12" r="3" fill="black"/></svg>') 12 12, auto;
-        }
+        .firma-canvas-wrapper { position: relative; border: 2px dashed #b6c8f0; border-radius: 20px; overflow: hidden; background: white; touch-action: none; width: 100%; max-width: 500px; margin: 0 auto; }
+        #firmaCanvas { display: block; width: 100%; height: auto; background: white; touch-action: none; cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="30" viewBox="0 0 24 30"><circle cx="12" cy="12" r="10" fill="rgba(0,0,0,0.3)"/><circle cx="12" cy="12" r="6" fill="rgba(0,0,0,0.6)"/><circle cx="12" cy="12" r="3" fill="black"/></svg>') 12 12, auto; }
         .firma-botones { display: flex; gap: 0.8rem; margin-top: 0.5rem; flex-wrap: wrap; }
         .firma-botones .btn { padding: 0.4rem 1.2rem; font-size: 0.8rem; }
         #firmaStatus { font-size: 0.8rem; color: #475569; margin-left: 0.5rem; }
-        .footer-info {
-            margin-top: 2rem; text-align: center; border-top: 1px solid rgba(0,0,0,0.04); padding-top: 1.2rem;
-        }
+        .footer-info { margin-top: 2rem; text-align: center; border-top: 1px solid rgba(0,0,0,0.04); padding-top: 1.2rem; }
         .footer-info .title { font-size: 1.2rem; font-weight: 600; color: #0f172a; margin-bottom: 0.5rem; }
         .footer-info .credits { font-size: 0.8rem; color: #94a3b8; }
-        .loader {
-            display: none; margin-left: 10px; border: 3px solid #f3f3f3; border-top: 3px solid #2563eb;
-            border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite;
-        }
+        .loader { display: none; margin-left: 10px; border: 3px solid #f3f3f3; border-top: 3px solid #2563eb; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         #mensaje { font-size: 0.9rem; color: #0b3b2c; margin-left: 0.5rem; }
-        @media (max-width: 700px) {
-            .card { padding: 1.5rem; }
-            .menu-bar { justify-content: center; flex-wrap: wrap; }
-            .form-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 700px) { .card { padding: 1.5rem; } .menu-bar { justify-content: center; flex-wrap: wrap; } .form-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -248,7 +133,6 @@
 
 <script>
     (function() {
-        // URL ya configurada
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby39l3bfalTOH_RwMDbUJWgTeiBf7Aj4OljtkRh7U2ZBxuBG3tabQ8VtxNn_N4k_ICk/exec';
 
         const nombre = document.getElementById('nombre');
@@ -268,13 +152,9 @@
         let firmaGuardada = false;
 
         function resizeCanvas() {
-            canvas.width = 500;
-            canvas.height = 200;
-            ctx.lineWidth = 3;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = '#1e293b';
-            ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            canvas.width = 500; canvas.height = 200;
+            ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.strokeStyle = '#1e293b';
+            ctx.fillStyle = 'white'; ctx.fillRect(0,0,canvas.width,canvas.height);
         }
         resizeCanvas();
 
@@ -283,14 +163,8 @@
             const scaleX = canvas.width / rect.width;
             const scaleY = canvas.height / rect.height;
             let clientX, clientY;
-            if (e.touches) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-                e.preventDefault();
-            } else {
-                clientX = e.clientX;
-                clientY = e.clientY;
-            }
+            if (e.touches) { clientX = e.touches[0].clientX; clientY = e.touches[0].clientY; e.preventDefault(); }
+            else { clientX = e.clientX; clientY = e.clientY; }
             return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
         }
 
@@ -318,9 +192,7 @@
                     () => { geolocalizacion.value = 'https://maps.google.com/?q=40.3272,-3.7658'; },
                     { enableHighAccuracy: true, timeout: 8000 }
                 );
-            } else {
-                geolocalizacion.value = 'https://maps.google.com/?q=40.3272,-3.7658';
-            }
+            } else { geolocalizacion.value = 'https://maps.google.com/?q=40.3272,-3.7658'; }
         }
 
         document.getElementById('btnGeo').addEventListener('click', obtenerGeolocalizacion);
