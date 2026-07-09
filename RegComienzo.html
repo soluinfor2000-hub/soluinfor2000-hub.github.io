@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <style>
-        /* (Mismo CSS que GesHoras.html, sin header-images) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #f5f9ff;
@@ -265,7 +264,6 @@
 </head>
 <body>
 <div class="card">
-    <!-- Menús -->
     <div class="menu-bar">
         <div class="menu-dropdown">
             <button><i class="fas fa-clipboard-list"></i> Registros <i class="fas fa-chevron-down" style="font-size:0.7rem; margin-left:6px;"></i></button>
@@ -364,8 +362,8 @@
 <script>
     (function() {
         // ===== CONFIGURACIÓN =====
-        // REEMPLAZA 'TU_URL_AQUI' CON LA URL REAL DE TU SCRIPT
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUe7VvaCeYYWGRnATK9_j4efceF9pRLVM6WHHjGMesjDeUtvgyvsvoZenOF0XHqxEx/exec';
+        // REEMPLAZA CON LA URL DE TU NUEVO SCRIPT UNA VEZ PUBLICADO
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxqBNJ9UI7sTORVRHwIa6bqU3_Mxpuglwyt_W5_pel3UKBH7BCQg7xeUVo6GxDQ38Ot/exec';
 
         // ===== DOM REFS =====
         const nombre = document.getElementById('nombre');
@@ -487,7 +485,7 @@
             alert('Histórico de versiones:\n\nV 1.0 - Lanzamiento inicial\nV 2.0 - Mejoras en la interfaz\nV 3.0 - Integración con Google Sheets\nV 3.4 - Versión con múltiples registros\nV 4.0 - Firma digital\nV 5.0 - Nuevos menús');
         });
 
-        // ===== FUNCIONES DE FECHA Y HORA (automáticas) =====
+        // ===== FUNCIONES DE FECHA Y HORA =====
         function nowDateString() {
             const d = new Date();
             const dd = String(d.getDate()).padStart(2, '0');
@@ -499,17 +497,6 @@
         function nowTimeString() {
             const d = new Date();
             return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
-        }
-
-        function nowDateTimeForId() {
-            const d = new Date();
-            const dd = String(d.getDate()).padStart(2, '0');
-            const mm = String(d.getMonth() + 1).padStart(2, '0');
-            const yy = String(d.getFullYear()).slice(-2);
-            const hh = String(d.getHours()).padStart(2, '0');
-            const min = String(d.getMinutes()).padStart(2, '0');
-            const ss = String(d.getSeconds()).padStart(2, '0');
-            return `${dd}/${mm}/${yy} - ${hh}:${min}:${ss}`;
         }
 
         function obtenerGeolocalizacion() {
@@ -528,7 +515,7 @@
             }
         }
 
-        // ===== INICIALIZACIÓN: FECHA Y HORA AUTOMÁTICAS AL CARGAR =====
+        // ===== INICIALIZACIÓN =====
         fecha.value = nowDateString();
         hComienzo.value = nowTimeString();
 
@@ -539,7 +526,6 @@
                 return;
             }
 
-            // Actualizar fecha y hora antes de enviar
             fecha.value = nowDateString();
             hComienzo.value = nowTimeString();
 
@@ -560,6 +546,7 @@
             }
 
             const registro = {
+                tipo: 'comienzo',  // <- IMPORTANTE: identifica este formulario
                 nombre: nombre.value.trim(),
                 dni: dni.value.trim(),
                 fecha: fecha.value,
