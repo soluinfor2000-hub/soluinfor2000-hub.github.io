@@ -131,6 +131,26 @@
             display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start;
             margin-top: 0.8rem; gap: 1rem;
         }
+        .firma-container {
+            background: rgba(255,255,255,0.3); padding: 1.2rem 1.8rem; border-radius: 36px;
+            border: 1px solid rgba(255,255,255,0.7); margin-bottom: 1.8rem; display: flex; flex-direction: column; gap: 4px;
+        }
+        .firma-container label {
+            font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+            color: #64748b; display: flex; align-items: center; gap: 6px;
+        }
+        .firma-container label i { font-size: 0.8rem; color: #3b82f6; width: 16px; }
+        .firma-canvas-wrapper {
+            position: relative; border: 2px dashed #b6c8f0; border-radius: 20px; overflow: hidden;
+            background: white; touch-action: none; width: 100%; max-width: 500px; margin: 0 auto;
+        }
+        #firmaCanvas {
+            display: block; width: 100%; height: auto; background: white; touch-action: none;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="30" viewBox="0 0 24 30"><circle cx="12" cy="12" r="10" fill="rgba(0,0,0,0.3)"/><circle cx="12" cy="12" r="6" fill="rgba(0,0,0,0.6)"/><circle cx="12" cy="12" r="3" fill="black"/></svg>') 12 12, auto;
+        }
+        .firma-botones { display: flex; gap: 0.8rem; margin-top: 0.5rem; flex-wrap: wrap; }
+        .firma-botones .btn { padding: 0.4rem 1.2rem; font-size: 0.8rem; }
+        #firmaStatus { font-size: 0.8rem; color: #475569; margin-left: 0.5rem; }
         .footer-info {
             margin-top: 2rem; text-align: center; border-top: 1px solid rgba(0,0,0,0.04); padding-top: 1.2rem;
         }
@@ -191,14 +211,26 @@
             <div class="campo"><label><i class="fas fa-user"></i> Nombre completo</label><input type="text" id="nombre" placeholder="Ej. Ana García" required></div>
             <div class="campo"><label><i class="fas fa-id-card"></i> DNI / NIE / CIF</label><input type="text" id="dni" placeholder="12345678A" required></div>
             <div class="campo"><label><i class="fas fa-calendar-day"></i> Fecha</label><input type="text" id="fecha" readonly></div>
-            <div class="campo">
-                <label><i class="fas fa-pause"></i> Parada</label>
+            <div class="campo"><label><i class="fas fa-exchange-alt"></i> Turno</label><select id="turnoSelect"><option value="MAÑANAS">MAÑANAS</option><option value="TARDES">TARDES</option></select></div>
+            <div class="campo"><label><i class="fas fa-play"></i> H. Comienzo</label><input type="text" id="hComienzo" readonly></div>
+            <div class="campo" style="grid-column: span 2;">
+                <label><i class="fas fa-map-pin"></i> Geolocalización</label>
                 <div style="display: flex; gap: 6px; align-items: center;">
-                    <input type="text" id="paradaDescanso" readonly style="flex:1;">
-                    <button type="button" class="btn btn-outline" id="btnParada"><i class="fas fa-clock"></i> Tomar hora</button>
+                    <input type="text" id="geolocalizacion" readonly style="flex:1;">
+                    <button type="button" class="btn btn-outline" id="btnGeo"><i class="fas fa-location-dot"></i> Grabar GEO</button>
+                    <button type="button" class="btn btn-outline" id="btnVerGeo"><i class="fas fa-eye"></i> Ver GEO</button>
                 </div>
             </div>
-            <div class="campo"><label><i class="fas fa-building"></i> Delegación</label><select id="delegacion"><option value="Avila">Ávila</option><option value="Segovia">Segovia</option></select></div>
+        </div>
+
+        <div class="firma-container">
+            <label><i class="fas fa-pen-fancy"></i> Firma digital <span style="font-weight:400; color:#64748b; font-size:0.7rem;">(dibuja con el dedo o lápiz)</span></label>
+            <div class="firma-canvas-wrapper"><canvas id="firmaCanvas" width="500" height="200"></canvas></div>
+            <div class="firma-botones">
+                <button type="button" class="btn btn-outline" id="btnBorrarFirma"><i class="fas fa-eraser"></i> Borrar firma</button>
+                <button type="button" class="btn btn-outline" id="btnGuardarFirma"><i class="fas fa-save"></i> Guardar firma</button>
+                <span id="firmaStatus">Sin firmar</span>
+            </div>
         </div>
 
         <div class="fila-acciones">
@@ -216,101 +248,149 @@
 
 <script>
     (function() {
+        // URL ya configurada
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFdY1e2Tlk81_9rLIghUwDGeBPu0GiAc19Z1jT3macujgU20s0v1hEwGbCQE0RMce5/exec';
 
         const nombre = document.getElementById('nombre');
         const dni = document.getElementById('dni');
         const fecha = document.getElementById('fecha');
-        const paradaDescanso = document.getElementById('paradaDescanso');
-        const delegacion = document.getElementById('delegacion');
+        const turnoSelect = document.getElementById('turnoSelect');
+        const hComienzo = document.getElementById('hComienzo');
+        const geolocalizacion = document.getElementById('geolocalizacion');
         const btnEnviar = document.getElementById('btnEnviar');
         const loader = document.getElementById('loader');
         const mensaje = document.getElementById('mensaje');
 
-        document.getElementById('btnParada').addEventListener('click', function() {
-            paradaDescanso.value = nowTimeString();
+        const canvas = document.getElementById('firmaCanvas');
+        const ctx = canvas.getContext('2d');
+        const firmaStatus = document.getElementById('firmaStatus');
+        let drawing = false;
+        let firmaGuardada = false;
+
+        function resizeCanvas() {
+            canvas.width = 500;
+            canvas.height = 200;
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#1e293b';
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        resizeCanvas();
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            let clientX, clientY;
+            if (e.touches) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+                e.preventDefault();
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+        }
+
+        function startDraw(e) { e.preventDefault(); drawing = true; const pos = getPos(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); firmaGuardada = false; firmaStatus.textContent = 'Dibujando...'; firmaStatus.style.color = '#2563eb'; }
+        function draw(e) { e.preventDefault(); if (!drawing) return; const pos = getPos(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); }
+        function endDraw(e) { e.preventDefault(); drawing = false; firmaStatus.textContent = 'Firma dibujada (sin guardar)'; firmaStatus.style.color = '#f59e0b'; }
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', endDraw);
+        canvas.addEventListener('mouseleave', endDraw);
+        canvas.addEventListener('touchstart', startDraw, { passive: false });
+        canvas.addEventListener('touchmove', draw, { passive: false });
+        canvas.addEventListener('touchend', endDraw, { passive: false });
+
+        document.getElementById('btnBorrarFirma').addEventListener('click', function() {
+            ctx.fillStyle = 'white'; ctx.fillRect(0, 0, canvas.width, canvas.height); firmaGuardada = false; firmaStatus.textContent = 'Sin firmar'; firmaStatus.style.color = '#64748b';
+        });
+        document.getElementById('btnGuardarFirma').addEventListener('click', function() { firmaGuardada = true; firmaStatus.textContent = '✅ Firma guardada'; firmaStatus.style.color = '#0b3b2c'; });
+
+        function obtenerGeolocalizacion() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => { geolocalizacion.value = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`; },
+                    () => { geolocalizacion.value = 'https://maps.google.com/?q=40.3272,-3.7658'; },
+                    { enableHighAccuracy: true, timeout: 8000 }
+                );
+            } else {
+                geolocalizacion.value = 'https://maps.google.com/?q=40.3272,-3.7658';
+            }
+        }
+
+        document.getElementById('btnGeo').addEventListener('click', obtenerGeolocalizacion);
+        document.getElementById('btnVerGeo').addEventListener('click', () => {
+            const url = geolocalizacion.value.trim();
+            if (url && (url.startsWith('http://') || url.startsWith('https://'))) window.open(url, '_blank');
+            else alert('No hay una ubicación válida grabada. Pulse "Grabar GEO" primero.');
         });
 
-        document.getElementById('manualLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open('ManualUsuario.html', '_blank', 'width=800,height=600,scrollbars=yes');
-        });
-
-        document.getElementById('historico').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Histórico de versiones:\n\nV 1.0 - Lanzamiento inicial\nV 2.0 - Mejoras en la interfaz\nV 3.0 - Integración con Google Sheets\nV 3.4 - Versión con múltiples registros\nV 4.0 - Firma digital\nV 5.0 - Nuevos menús');
-        });
+        document.getElementById('manualLink').addEventListener('click', function(e) { e.preventDefault(); window.open('ManualUsuario.html', '_blank', 'width=800,height=600,scrollbars=yes'); });
+        document.getElementById('historico').addEventListener('click', function(e) { e.preventDefault(); alert('Histórico de versiones:\n\nV 1.0 - Lanzamiento inicial\nV 2.0 - Mejoras en la interfaz\nV 3.0 - Integración con Google Sheets\nV 3.4 - Versión con múltiples registros\nV 4.0 - Firma digital\nV 5.0 - Nuevos menús'); });
 
         function nowDateString() {
             const d = new Date();
             return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth() + 1).padStart(2,'0')}/${String(d.getFullYear()).slice(-2)}`;
         }
-
         function nowTimeString() {
             const d = new Date();
             return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
         }
 
         fecha.value = nowDateString();
+        hComienzo.value = nowTimeString();
 
         btnEnviar.addEventListener('click', async () => {
-            if (!nombre.value.trim() || !dni.value.trim()) {
-                alert('⚠️ Complete Nombre y DNI.');
-                return;
-            }
-            if (paradaDescanso.value === '--:--:--' || paradaDescanso.value === '') {
-                alert('⚠️ Pulse el botón "Tomar hora" para registrar la parada.');
-                return;
-            }
+            if (!nombre.value.trim() || !dni.value.trim()) { alert('⚠️ Complete Nombre y DNI.'); return; }
 
             fecha.value = nowDateString();
+            hComienzo.value = nowTimeString();
+
+            let firmaBase64 = '';
+            if (firmaGuardada) {
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const pixels = imageData.data;
+                let isBlank = true;
+                for (let i = 0; i < pixels.length; i += 4) {
+                    if (pixels[i] < 255 || pixels[i+1] < 255 || pixels[i+2] < 255) { isBlank = false; break; }
+                }
+                if (!isBlank) firmaBase64 = canvas.toDataURL('image/png').split(',')[1];
+            }
 
             const registro = {
-                tipo: 'parada',
+                tipo: 'comienzo',
                 nombre: nombre.value.trim(),
                 dni: dni.value.trim(),
                 fecha: fecha.value,
-                paradaDescanso: paradaDescanso.value,
-                delegacion: delegacion.value,
-                hComienzo: '--:--:--',
+                turno: turnoSelect.value,
+                hComienzo: hComienzo.value,
+                geolocalizacion: geolocalizacion.value || 'Sin ubicación',
+                firma: firmaBase64,
+                paradaDescanso: '--:--:--',
                 finParadaDescanso: '--:--:--',
                 finalizacion: '--:--:--',
-                geolocalizacion: '',
-                firma: ''
+                delegacion: ''
             };
 
             const formBody = new URLSearchParams(registro).toString();
-
-            loader.style.display = 'inline-block';
-            mensaje.textContent = '⏳ Enviando...';
-            btnEnviar.disabled = true;
+            loader.style.display = 'inline-block'; mensaje.textContent = '⏳ Enviando...'; btnEnviar.disabled = true;
 
             try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: formBody
-                });
-
+                const response = await fetch(SCRIPT_URL, { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formBody });
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
                 const texto = await response.text();
-                console.log('📥 Respuesta:', texto);
-
                 let resultado;
-                try {
-                    resultado = JSON.parse(texto);
-                } catch (e) {
-                    alert('El servidor devolvió texto plano:\n' + texto);
-                    mensaje.textContent = '❌ El servidor devolvió texto plano.';
-                    return;
-                }
-
+                try { resultado = JSON.parse(texto); } catch (e) { alert('El servidor devolvió texto plano:\n' + texto); mensaje.textContent = '❌ El servidor devolvió texto plano.'; return; }
                 if (resultado.success) {
                     mensaje.textContent = '✅ Registro enviado correctamente';
-                    alert('✅ Hora de parada registrada correctamente.');
-                    paradaDescanso.value = '';
+                    alert('✅ Registro de comienzo guardado correctamente.');
+                    geolocalizacion.value = '';
+                    ctx.fillStyle = 'white'; ctx.fillRect(0, 0, canvas.width, canvas.height); firmaGuardada = false; firmaStatus.textContent = 'Sin firmar'; firmaStatus.style.color = '#64748b';
                 } else {
                     mensaje.textContent = '❌ Error: ' + resultado.message;
                     alert('❌ Error: ' + resultado.message);
@@ -320,14 +400,12 @@
                 mensaje.textContent = '❌ Error de conexión.';
                 alert('❌ Error: ' + error.message);
             } finally {
-                loader.style.display = 'none';
-                btnEnviar.disabled = false;
+                loader.style.display = 'none'; btnEnviar.disabled = false;
             }
         });
 
-        setInterval(() => {
-            fecha.value = nowDateString();
-        }, 60000);
+        setInterval(() => { fecha.value = nowDateString(); }, 60000);
+        window.addEventListener('load', () => { setTimeout(obtenerGeolocalizacion, 500); });
     })();
 </script>
 </body>
