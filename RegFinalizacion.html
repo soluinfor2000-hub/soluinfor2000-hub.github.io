@@ -7,44 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{background:#f5f9ff;font-family:Inter,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:2rem 1rem;color:#1e293b}
-    .card{max-width:1360px;width:100%;background:rgba(255,255,255,.75);backdrop-filter:blur(12px);border-radius:48px;padding:2.5rem 2.8rem;box-shadow:0 25px 50px -12px rgba(0,0,0,.15),0 0 0 1px rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.6)}
-    .menu-bar{display:flex;justify-content:flex-end;align-items:center;gap:.8rem;margin-bottom:.5rem;flex-wrap:nowrap}
-    .menu-dropdown{position:relative;display:inline-block;flex-shrink:0}
-    .menu-dropdown>button{background:0 0;border:none;padding:.4rem .6rem;font-weight:500;color:#1e293b;cursor:pointer;border-radius:8px;transition:background .2s;font-size:.85rem;white-space:nowrap}
-    .menu-dropdown>button:hover{background:rgba(0,0,0,.05)}
-    .menu-dropdown .dropdown-content{display:none;position:absolute;right:0;background:#fff;min-width:200px;box-shadow:0 12px 30px -10px rgba(0,0,0,.2);border-radius:16px;padding:.5rem 0;z-index:10;border:1px solid rgba(0,0,0,.05)}
-    .menu-dropdown:hover .dropdown-content{display:block}
-    .dropdown-content a{display:block;padding:.5rem 1.2rem;color:#1e293b;text-decoration:none;font-size:.85rem;transition:background .15s;cursor:pointer;white-space:nowrap}
-    .dropdown-content a:hover{background:#f1f5f9}
-    .dropdown-content i{margin-right:10px;color:#3b82f6;width:18px}
-    .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem 1.8rem;background:rgba(255,255,255,.3);padding:1.6rem 1.8rem;border-radius:36px;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.7);margin-bottom:1.8rem}
-    .campo{display:flex;flex-direction:column;gap:4px}
-    .campo label{font-size:.7rem;font-weight:600;text-transform:uppercase;color:#64748b;display:flex;align-items:center;gap:6px}
-    .campo label i{font-size:.8rem;color:#3b82f6;width:16px}
-    .campo input,.campo select{background:#fff;border:1px solid #e9edf4;border-radius:20px;padding:.7rem 1.2rem;font-size:.9rem;color:#0f172a;width:100%;font-family:Inter,sans-serif;box-shadow:0 2px 4px rgba(0,0,0,.01)}
-    .campo input:focus,.campo select:focus{outline:2px solid #3b82f6;outline-offset:2px;border-color:transparent}
-    .campo input[readonly]{background:#f4f7fc}
-    .btn{background:#fff;border:none;padding:.65rem 1.5rem;border-radius:40px;font-weight:500;font-size:.85rem;display:inline-flex;align-items:center;gap:10px;color:#1e293b;box-shadow:0 4px 8px -4px rgba(0,0,0,.04);cursor:pointer;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.6)}
-    .btn i{font-size:1rem;color:#2563eb}
-    .btn:hover{background:#fff;box-shadow:0 12px 24px -12px rgba(0,0,0,.2);transform:scale(1.02) translateY(-2px);border-color:#b6c8f0}
-    .btn-success{background:#0b3b2c;color:#fff;border-color:#0b3b2c}
-    .btn-success i{color:#6ee7b7}
-    .btn-outline{background:0 0;border:1px solid #d0d9e8;box-shadow:none}
-    .btn-outline:hover{background:#f8faff;border-color:#3b82f6}
-    .fila-acciones{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;margin-top:.8rem}
-    .firma-container{background:rgba(255,255,255,.3);padding:1.2rem 1.8rem;border-radius:36px;border:1px solid rgba(255,255,255,.7);margin-bottom:1.8rem}
-    .firma-canvas-wrapper{position:relative;border:2px dashed #b6c8f0;border-radius:20px;overflow:hidden;background:#fff;touch-action:none;max-width:500px;margin:0 auto}
-    #firmaCanvas{display:block;width:100%;height:auto;background:#fff;touch-action:none}
-    .firma-botones{display:flex;gap:.8rem;margin-top:.5rem;flex-wrap:wrap}
-    #firmaStatus{font-size:.8rem;color:#475569;margin-left:.5rem}
-    .footer-info{margin-top:2rem;text-align:center;border-top:1px solid rgba(0,0,0,.04);padding-top:1.2rem}
-    .footer-info .title{font-size:1.2rem;font-weight:600;color:#0f172a}
-    .footer-info .credits{font-size:.8rem;color:#94a3b8}
-    .loader{display:none;margin-left:10px;border:3px solid #f3f3f3;border-top:3px solid #2563eb;border-radius:50%;width:20px;height:20px;animation:spin 1s linear infinite}
-    @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
-    @media(max-width:700px){.card{padding:1.5rem}.menu-bar{justify-content:center;flex-wrap:wrap}.form-grid{grid-template-columns:1fr}}
+    *{margin:0;padding:0;box-sizing:border-box}body{background:#f5f9ff;font-family:Inter,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:2rem 1rem;color:#1e293b}.card{max-width:1360px;width:100%;background:rgba(255,255,255,.75);backdrop-filter:blur(12px);border-radius:48px;padding:2.5rem 2.8rem;box-shadow:0 25px 50px -12px rgba(0,0,0,.15),0 0 0 1px rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.6)}.menu-bar{display:flex;justify-content:flex-end;align-items:center;gap:.8rem;margin-bottom:.5rem;flex-wrap:nowrap}.menu-dropdown{position:relative;display:inline-block;flex-shrink:0}.menu-dropdown>button{background:0 0;border:none;padding:.4rem .6rem;font-weight:500;color:#1e293b;cursor:pointer;border-radius:8px;font-size:.85rem;white-space:nowrap}.menu-dropdown>button:hover{background:rgba(0,0,0,.05)}.menu-dropdown .dropdown-content{display:none;position:absolute;right:0;background:#fff;min-width:200px;box-shadow:0 12px 30px -10px rgba(0,0,0,.2);border-radius:16px;padding:.5rem 0;z-index:10;border:1px solid rgba(0,0,0,.05)}.menu-dropdown:hover .dropdown-content{display:block}.dropdown-content a{display:block;padding:.5rem 1.2rem;color:#1e293b;text-decoration:none;font-size:.85rem;white-space:nowrap}.dropdown-content a:hover{background:#f1f5f9}.dropdown-content i{margin-right:10px;color:#3b82f6;width:18px}.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem 1.8rem;background:rgba(255,255,255,.3);padding:1.6rem 1.8rem;border-radius:36px;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.7);margin-bottom:1.8rem}.campo{display:flex;flex-direction:column;gap:4px}.campo label{font-size:.7rem;font-weight:600;text-transform:uppercase;color:#64748b;display:flex;align-items:center;gap:6px}.campo label i{font-size:.8rem;color:#3b82f6;width:16px}.campo input,.campo select{background:#fff;border:1px solid #e9edf4;border-radius:20px;padding:.7rem 1.2rem;font-size:.9rem;color:#0f172a;width:100%;font-family:Inter,sans-serif;box-shadow:0 2px 4px rgba(0,0,0,.01)}.campo input:focus,.campo select:focus{outline:2px solid #3b82f6;outline-offset:2px;border-color:transparent}.campo input[readonly]{background:#f4f7fc}.btn{background:#fff;border:none;padding:.65rem 1.5rem;border-radius:40px;font-weight:500;font-size:.85rem;display:inline-flex;align-items:center;gap:10px;color:#1e293b;box-shadow:0 4px 8px -4px rgba(0,0,0,.04);cursor:pointer;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.6)}.btn i{font-size:1rem;color:#2563eb}.btn:hover{background:#fff;box-shadow:0 12px 24px -12px rgba(0,0,0,.2);transform:scale(1.02) translateY(-2px);border-color:#b6c8f0}.btn-success{background:#0b3b2c;color:#fff;border-color:#0b3b2c}.btn-success i{color:#6ee7b7}.btn-outline{background:0 0;border:1px solid #d0d9e8;box-shadow:none}.btn-outline:hover{background:#f8faff;border-color:#3b82f6}.fila-acciones{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;margin-top:.8rem}.firma-container{background:rgba(255,255,255,.3);padding:1.2rem 1.8rem;border-radius:36px;border:1px solid rgba(255,255,255,.7);margin-bottom:1.8rem}.firma-canvas-wrapper{position:relative;border:2px dashed #b6c8f0;border-radius:20px;overflow:hidden;background:#fff;touch-action:none;max-width:500px;margin:0 auto}#firmaCanvas{display:block;width:100%;height:auto;background:#fff;touch-action:none}.firma-botones{display:flex;gap:.8rem;margin-top:.5rem;flex-wrap:wrap}#firmaStatus{font-size:.8rem;color:#475569;margin-left:.5rem}.footer-info{margin-top:2rem;text-align:center;border-top:1px solid rgba(0,0,0,.04);padding-top:1.2rem}.footer-info .title{font-size:1.2rem;font-weight:600;color:#0f172a}.footer-info .credits{font-size:.8rem;color:#94a3b8}.loader{display:none;margin-left:10px;border:3px solid #f3f3f3;border-top:3px solid #2563eb;border-radius:50%;width:20px;height:20px;animation:spin 1s linear infinite}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}@media(max-width:700px){.card{padding:1.5rem}.menu-bar{justify-content:center;flex-wrap:wrap}.form-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -64,7 +27,7 @@
       <div class="campo"><label><i class="fas fa-building"></i> Delegación</label><select id="delegacion"><option value="Avila">Ávila</option><option value="Segovia">Segovia</option></select></div>
     </div>
     <div class="firma-container">
-      <label><i class="fas fa-pen-fancy"></i> Firma digital</label>
+      <label><i class="fas fa-pen-fancy"></i> Firma digital (dibuja y pulsa "Guardar firma")</label>
       <div class="firma-canvas-wrapper"><canvas id="firmaCanvas" width="500" height="200"></canvas></div>
       <div class="firma-botones"><button type="button" class="btn btn-outline" id="btnBorrarFirma"><i class="fas fa-eraser"></i> Borrar firma</button><button type="button" class="btn btn-outline" id="btnGuardarFirma"><i class="fas fa-save"></i> Guardar firma</button><span id="firmaStatus">Sin firmar</span></div>
     </div>
@@ -75,10 +38,7 @@
 <script>
   (function() {
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFdY1e2Tlk81_9rLIghUwDGeBPu0GiAc19Z1jT3macujgU20s0v1hEwGbCQE0RMce5/exec'; // ⚠️ REEMPLAZAR
-    const nombre=document.getElementById('nombre'),dni=document.getElementById('dni'),fecha=document.getElementById('fecha'),
-      finalizacion=document.getElementById('finalizacion'),delegacion=document.getElementById('delegacion'),
-      btnEnviar=document.getElementById('btnEnviar'),loader=document.getElementById('loader'),mensaje=document.getElementById('mensaje'),
-      canvas=document.getElementById('firmaCanvas'),ctx=canvas.getContext('2d'),firmaStatus=document.getElementById('firmaStatus');
+    const nombre=document.getElementById('nombre'),dni=document.getElementById('dni'),fecha=document.getElementById('fecha'),finalizacion=document.getElementById('finalizacion'),delegacion=document.getElementById('delegacion'),btnEnviar=document.getElementById('btnEnviar'),loader=document.getElementById('loader'),mensaje=document.getElementById('mensaje'),canvas=document.getElementById('firmaCanvas'),ctx=canvas.getContext('2d'),firmaStatus=document.getElementById('firmaStatus');
     let drawing=false,firmaGuardada=false;
     function resizeCanvas(){canvas.width=500;canvas.height=200;ctx.lineWidth=3;ctx.lineCap='round';ctx.strokeStyle='#1e293b';ctx.fillStyle='white';ctx.fillRect(0,0,canvas.width,canvas.height)}
     resizeCanvas();
@@ -98,7 +58,7 @@
     fecha.value=nowDateString();
     btnEnviar.addEventListener('click',async()=>{
       if(!nombre.value.trim()||!dni.value.trim()){alert('⚠️ Complete Nombre y DNI.');return}
-      if(!finalizacion.value||finalizacion.value==='--:--:--'){alert('⚠️ Pulse Tomar hora');return}
+      if(!finalizacion.value||finalizacion.value==='--:--:--'){alert('⚠️ Pulse "Tomar hora"');return}
       fecha.value=nowDateString();
       let firmaBase64='';if(firmaGuardada){const img=ctx.getImageData(0,0,canvas.width,canvas.height),pix=img.data;let blank=true;for(let i=0;i<pix.length;i+=4)if(pix[i]<255||pix[i+1]<255||pix[i+2]<255){blank=false;break}if(!blank)firmaBase64=canvas.toDataURL('image/png').split(',')[1]}
       const registro={tipo:'finalizacion',nombre:nombre.value.trim(),dni:dni.value.trim(),fecha:fecha.value,finalizacion:finalizacion.value,delegacion:delegacion.value,firma:firmaBase64};
