@@ -134,6 +134,7 @@
 <script>
     (function() {
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby39l3bfalTOH_RwMDbUJWgTeiBf7Aj4OljtkRh7U2ZBxuBG3tabQ8VtxNn_N4k_ICk/exec';
+
         const nombre = document.getElementById('nombre');
         const dni = document.getElementById('dni');
         const fecha = document.getElementById('fecha');
@@ -259,7 +260,7 @@
                 try { resultado = JSON.parse(texto); } catch (e) { alert('El servidor devolvió texto plano:\n' + texto); mensaje.textContent = '❌ El servidor devolvió texto plano.'; return; }
                 if (resultado.success) {
                     mensaje.textContent = '✅ Registro enviado correctamente';
-                    alert('✅ Registro de comienzo guardado correctamente.');
+                    alert('✅ Registro de comienzo guardado. El enlace aparecerá en unos minutos (el diablo lo escribirá).');
                     geolocalizacion.value = '';
                     ctx.fillStyle = 'white'; ctx.fillRect(0, 0, canvas.width, canvas.height); firmaGuardada = false; firmaStatus.textContent = 'Sin firmar'; firmaStatus.style.color = '#64748b';
                 } else {
