@@ -1,45 +1,91 @@
 <!DOCTYPE html>
 <html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Test de firma – Depuración</title>
+</head>
 <body>
-  <h2>Test mínimo</h2>
-  <label>DNI: <input type="text" id="dni" value="12345678A"></label><br><br>
-  <canvas id="firmaCanvas" width="500" height="200" style="border:1px solid black"></canvas><br>
-  <button onclick="enviar()">Enviar</button>
-  <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyc7wguivLik3n2fNpH5g-IRDiIMbEMAzfdL29nNCWA7KKfQVm6lE6Q2SDcz0Sz1W0T/exec'; // ← PONER LA NUEVA URL
+    <h2>Prueba de subida de firma</h2>
+    <label>DNI: <input type="text" id="dni" value="12345678A"></label><br><br>
+    <canvas id="firmaCanvas" width="400" height="200" style="border:2px solid #000;"></canvas><br>
+    <button onclick="enviar()">Enviar firma</button>
+    <p id="mensaje"></p>
 
-    const canvas = document.getElementById('firmaCanvas');
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.lineWidth = 3;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = '#000';
-    let drawing = false;
-    canvas.addEventListener('mousedown', e => { drawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
-    canvas.addEventListener('mousemove', e => { if (drawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); } });
-    canvas.addEventListener('mouseup', () => drawing = false);
-    canvas.addEventListener('touchstart', e => { e.preventDefault(); const t = e.touches[0]; const r = canvas.getBoundingClientRect(); drawing = true; ctx.beginPath(); ctx.moveTo(t.clientX - r.left, t.clientY - r.top); });
-    canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!drawing) return; const t = e.touches[0]; const r = canvas.getBoundingClientRect(); ctx.lineTo(t.clientX - r.left, t.clientY - r.top); ctx.stroke(); });
-    canvas.addEventListener('touchend', () => drawing = false);
+    <script>
+        // ⚠️ PON AQUÍ LA NUEVA URL DE LA WEB APP (la que obtuviste al publicar el script mínimo)
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyc7wguivLik3n2fNpH5g-IRDiIMbEMAzfdL29nNCWA7KKfQVm6lE6Q2SDcz0Sz1W0T/exec';
 
-    async function enviar() {
-      const dni = document.getElementById('dni').value.trim();
-      if (!dni) return alert('Introduce DNI');
-      const firmaBase64 = canvas.toDataURL('image/png').split(',')[1];
-      const formBody = new URLSearchParams({ dni, firma: firmaBase64 }).toString();
-      try {
-        const res = await fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formBody });
-        const json = await res.json();
-        if (json.success) {
-          alert('Éxito. Revisa la hoja en la última fila, columna 13.');
-        } else {
-          alert('Error: ' + json.message);
+        const canvas = document.getElementById('firmaCanvas');
+        const ctx = canvas.getContext('2d');
+        let dibujando = false;
+
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#000';
+
+        function obtenerPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+            const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+            return { x, y };
         }
-      } catch (e) {
-        alert('Error de conexión');
-      }
-    }
-  </script>
+
+        function empezar(e) {
+            e.preventDefault();
+            dibujando = true;
+            const pos = obtenerPos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        }
+        function mover(e) {
+            e.preventDefault();
+            if (!dibujando) return;
+            const pos = obtenerPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+        function terminar(e) {
+            e.preventDefault();
+            dibujando = false;
+        }
+
+        canvas.addEventListener('mousedown', empezar);
+        canvas.addEventListener('mousemove', mover);
+        canvas.addEventListener('mouseup', terminar);
+        canvas.addEventListener('mouseleave', terminar);
+        canvas.addEventListener('touchstart', empezar, { passive: false });
+        canvas.addEventListener('touchmove', mover, { passive: false });
+        canvas.addEventListener('touchend', terminar, { passive: false });
+
+        async function enviar() {
+            const dni = document.getElementById('dni').value.trim();
+            if (!dni) return alert('Introduce DNI');
+
+            const dataURL = canvas.toDataURL('image/png');
+            const base64 = dataURL.split(',')[1];
+            const formData = new URLSearchParams();
+            formData.append('dni', dni);
+            formData.append('firma', base64);
+
+            document.getElementById('mensaje').innerText = 'Enviando...';
+
+            try {
+                const respuesta = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+                const resultado = await respuesta.json();
+                if (resultado.success) {
+                    document.getElementById('mensaje').innerText = '✅ Éxito. Mira la hoja de cálculo.';
+                } else {
+                    document.getElementById('mensaje').innerText = '❌ Error: ' + resultado.message;
+                }
+            } catch (error) {
+                document.getElementById('mensaje').innerText = '❌ Error de conexión: ' + error.message;
+            }
+        }
+    </script>
 </body>
 </html>
