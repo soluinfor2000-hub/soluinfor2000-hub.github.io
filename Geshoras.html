@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>GES-HORAS V.5.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #f5f9ff;
+            font-family: "Inter", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            color: #1e293b;
+        }
+        .card {
+            max-width: 1360px;
+            width: 100%;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            padding: 2.5rem 2.8rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+        .header-images {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .header-images img {
+            max-height: 60px;
+            width: auto;
+            border-radius: 8px;
+        }
+        .menu-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: nowrap;
+        }
+        .menu-dropdown {
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .menu-dropdown > button {
+            background: transparent;
+            border: none;
+            padding: 0.4rem 0.6rem;
+            font-weight: 500;
+            color: #1e293b;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.2s;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+        .menu-dropdown > button:hover {
+            background: rgba(0,0,0,0.05);
+        }
+        .menu-dropdown .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 12px 30px -10px rgba(0,0,0,0.2);
+            border-radius: 16px;
+            padding: 0.5rem 0;
+            z-index: 10;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .menu-dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 0.5rem 1.2rem;
+            color: #1e293b;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: background 0.15s;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .dropdown-content a:hover {
+            background: #f1f5f9;
+        }
+        .dropdown-content i {
+            margin-right: 10px;
+            color: #3b82f6;
+            width: 18px;
+        }
+        .main-content {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        .main-content h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+        .main-content p {
+            font-size: 1.1rem;
+            color: #475569;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.5;
+            white-space: nowrap;
+        }
+        .footer-info {
+            margin-top: 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(0,0,0,0.04);
+            padding-top: 1.2rem;
+        }
+        .footer-info .title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+        .footer-info .credits {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        @media (max-width: 700px) {
+            .card { padding: 1.5rem; }
+            .header-images img { max-height: 40px; }
+            .menu-bar { justify-content: center; flex-wrap: wrap; }
+            .main-content h2 { font-size: 1.8rem; }
+            .main-content p { white-space: normal; }
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <!-- Cabecera con imágenes -->
+    <div class="header-images">
+        <img src="https://static.wixstatic.com/media/0ddff0_3e162ca3deaa483bbfa71895826948de~mv2.jpg" alt="Logo izquierdo">
+        <img src="https://static.wixstatic.com/media/0ddff0_4ff60ad96cd842358499bcfba9d23ae0~mv2.jpg" alt="Logo derecho">
+    </div>
+
+    <!-- Menús -->
+    <div class="menu-bar">
+        <!-- Registros -->
+        <div class="menu-dropdown">
+            <button><i class="fas fa-clipboard-list"></i> Registros <i class="fas fa-chevron-down" style="font-size:0.7rem; margin-left:6px;"></i></button>
+            <div class="dropdown-content">
+                <a href="RegComienzo.html"><i class="fas fa-play"></i> R. Comienzo</a>
+                <a href="RegParadaDescanso.html"><i class="fas fa-pause"></i> R. Parada / Descanso</a>
+                <a href="RegFinParadaDescanso.html"><i class="fas fa-check"></i> R. Fin Parada / Descanso</a>
+                <a href="RegFinalizacion.html"><i class="fas fa-flag-checkered"></i> R. Finalización</a>
+            </div>
+        </div>
+        <!-- Manual -->
+        <div class="menu-dropdown">
+            <button><i class="fas fa-book"></i> Manual <i class="fas fa-chevron-down" style="font-size:0.7rem; margin-left:6px;"></i></button>
+            <div class="dropdown-content">
+                <a href="#" id="manualLink"><i class="fas fa-file-alt"></i> Manual de usuario</a>
+            </div>
+        </div>
+        <!-- Informes -->
+        <div class="menu-dropdown">
+            <button><i class="fas fa-chart-bar"></i> Informes <i class="fas fa-chevron-down" style="font-size:0.7rem; margin-left:6px;"></i></button>
+            <div class="dropdown-content">
+                <a href="#"><i class="fas fa-calendar-day"></i> Cierre día</a>
+                <a href="#"><i class="fas fa-id-card"></i> Búsqueda por DNI/NIF/CIF</a>
+                <a href="#"><i class="fas fa-calendar-alt"></i> Fecha</a>
+            </div>
+        </div>
+        <!-- Soporte -->
+        <div class="menu-dropdown">
+            <button><i class="fas fa-headset"></i> Soporte <i class="fas fa-chevron-down" style="font-size:0.7rem; margin-left:6px;"></i></button>
+            <div class="dropdown-content">
+                <a id="historico"><i class="fas fa-history"></i> Histórico de versiones</a>
+                <a href="https://soluinfor2000.wixsite.com/soluinfor2000/pol%C3%ADca-de-privacidad" target="_blank"><i class="fas fa-shield-alt"></i> Aviso de Privacidad</a>
+                <a href="https://forms.gle/e1CdTx2jiQ83xemG7" target="_blank"><i class="fas fa-edit"></i> Solicitud de modificación</a>
+                <a href="https://api.whatsapp.com/send?phone=34629813855&text=Bienvenidos%20a%20Fran%20Inform%C3%A1tico%2C%20soporte%20inform%C3%A1tico%20a%20domicilio.%20%C2%BFEn%20que%20podemos%20ayudarle%3F" target="_blank"><i class="fas fa-envelope"></i> Contactar con Soporte</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="main-content">
+        <h2><i class="fas fa-clock" style="color: #2563eb;"></i> Gestión de Horarios</h2>
+        <p>Selecciona una opción del menú "Registros" para comenzar a fichar tu jornada laboral.</p>
+    </div>
+
+    <!-- Pie de página -->
+    <div class="footer-info">
+        <div class="title">GESTIÓN DE HORARIO</div>
+        <div class="credits">Desarrollada por Soluinfor 2000 - Fran informático © 2025</div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('manualLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.open('ManualUsuario.html', '_blank', 'width=800,height=600,scrollbars=yes');
+    });
+    document.getElementById('historico').addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('Histórico de versiones:\n\nV 1.0 - Lanzamiento inicial\nV 2.0 - Mejoras en la interfaz\nV 3.0 - Integración con Google Sheets\nV 3.4 - Versión con múltiples registros\nV 4.0 - Firma digital\nV 5.0 - Nuevos menús');
+    });
+</script>
+</body>
+</html>
