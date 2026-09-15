@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horario | Soluinfor 2000</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           RESET Y VARIABLES GLOBALES (2026)
+           ============================================ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e17;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --text-accent: #a5b4fc;
+
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ============================================
+           FONDO Y LAYOUT PRINCIPAL
+           ============================================ */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: var(--space-xl) var(--space-md);
+            position: relative;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::before {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--accent-primary), transparent 70%);
+            top: -150px;
+            left: -100px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        body::after {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-secondary), transparent 70%);
+            bottom: -100px;
+            right: -80px;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        /* ============================================
+           CONTENEDOR PRINCIPAL (Glassmorphism)
+           ============================================ */
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 880px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px) saturate(1.4);
+            -webkit-backdrop-filter: blur(24px) saturate(1.4);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            padding: var(--space-3xl) var(--space-2xl);
+            animation: containerIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes containerIn {
+            from {
+                opacity: 0;
+                transform: translateY(24px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================
+           CABECERA
+           ============================================ */
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+            padding-bottom: var(--space-xl);
+            border-bottom: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 3px;
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            color: var(--text-accent);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            margin-bottom: var(--space-md);
+        }
+
+        .brand-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 8px var(--accent-green);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .header h1 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #ffffff 0%, #c7d2fe 50%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-sm);
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 400;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        /* ============================================
+           ESTADO ACTUAL (Banner multilínea)
+           ============================================ */
+        .status-banner {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+            padding: var(--space-lg) var(--space-xl);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-2xl);
+            border: 1px solid;
+            animation: fadeIn 1s ease both;
+            transition: background var(--transition-smooth), border-color var(--transition-smooth);
+        }
+
+        .status-banner.open {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.25);
+        }
+
+        .status-banner.closed {
+            background: rgba(244, 63, 94, 0.08);
+            border-color: rgba(244, 63, 94, 0.25);
+        }
+
+        .status-banner.urgent {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: rgba(245, 158, 11, 0.25);
+        }
+
+        .status-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .status-banner.open .status-main { color: #6ee7b7; }
+        .status-banner.closed .status-main { color: #fda4af; }
+        .status-banner.urgent .status-main { color: #fcd34d; }
+
+        .status-main .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        .status-banner.open .status-dot {
+            background: var(--accent-green);
+            box-shadow: 0 0 10px var(--accent-green);
+        }
+
+        .status-banner.closed .status-dot {
+            background: var(--accent-rose);
+            box-shadow: 0 0 10px var(--accent-rose);
+        }
+
+        .status-banner.urgent .status-dot {
+            background: var(--accent-amber);
+            box-shadow: 0 0 10px var(--accent-amber);
+        }
+
+        .status-sub {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
+        }
+
+        .status-sub .sub-icon {
+            opacity: 0.8;
+        }
+
+        .status-sub strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .status-urgent {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fcd34d;
+            padding-top: var(--space-sm);
+            margin-top: var(--space-xs);
+            border-top: 1px dashed rgba(245, 158, 11, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
+            animation: fadeIn 0.6s ease both;
+        }
+
+        .status-urgent .urgent-icon {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================
+           TABLA DE HORARIO
+           ============================================ */
+        .schedule-section {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            letter-spacing: -0.01em;
+        }
+
+        .section-title .icon {
+            font-size: 1.2rem;
+        }
+
+        .schedule-grid {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .schedule-row {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-lg);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+        }
+
+        .schedule-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(99, 102, 241, 0.2);
+            transform: translateX(4px);
+        }
+
+        .schedule-row.today {
+            background: rgba(99, 102, 241, 0.08);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .schedule-row.today .day-name {
+            color: var(--text-accent);
+            font-weight: 700;
+        }
+
+        .day-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .day-hours {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .hours-block {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.82rem;
+        }
+
+        .hours-block.urgent {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+
+        /* ============================================
+           NOTAS ADICIONALES
+           ============================================ */
+        .notes-section {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .note-block {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            padding: var(--space-lg);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            transition: background var(--transition-fast), border-color var(--transition-fast);
+        }
+
+        .note-block:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .note-icon {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .note-content h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+        }
+
+        .note-content p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--space-sm);
+        }
+
+        /* ============================================
+           BLOQUE DE URGENCIAS RESALTADO
+           ============================================ */
+        .note-block.urgent-highlight {
+            position: relative;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(244, 63, 94, 0.08) 100%);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.1), 0 8px 32px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+
+        .note-block.urgent-highlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-amber), var(--accent-rose));
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+        }
+
+        .note-block.urgent-highlight::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .note-block.urgent-highlight:hover {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(244, 63, 94, 0.12) 100%);
+            border-color: rgba(245, 158, 11, 0.55);
+            box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.2), 0 12px 40px rgba(245, 158, 11, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .note-block.urgent-highlight .note-icon {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: rgba(245, 158, 11, 0.4);
+            font-size: 1.15rem;
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .note-block.urgent-highlight .note-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .note-block.urgent-highlight .note-content h4 {
+            color: #fcd34d;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .urgent-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: linear-gradient(135deg, var(--accent-amber), var(--accent-rose));
+            color: #ffffff;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.6rem;
+            border-radius: 100px;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 4px 14px rgba(245, 158, 11, 0.6); }
+        }
+
+        .note-block.urgent-highlight .note-content p {
+            color: #fed7aa;
+            font-weight: 500;
+        }
+
+        /* ============================================
+           BOTONES SECUNDARIOS
+           ============================================ */
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: var(--text-accent);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 0.6rem 1.3rem;
+            border-radius: 100px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), background var(--transition-fast);
+            box-shadow: 0 2px 12px rgba(99, 102, 241, 0.15);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(99, 102, 241, 0.22);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           CTA WHATSAPP
+           ============================================ */
+        .cta-section {
+            text-align: center;
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .cta-section .cta-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: var(--space-md);
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 0.95rem 2.2rem;
+            border-radius: 100px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .whatsapp-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(37, 211, 102, 0.45);
+        }
+
+        .whatsapp-btn:hover::before {
+            opacity: 1;
+        }
+
+        .whatsapp-btn:active {
+            transform: translateY(-1px) scale(0.99);
+        }
+
+        .whatsapp-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .cta-note {
+            margin-top: var(--space-md);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            text-align: center;
+            margin-top: var(--space-xl);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--glass-border);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+        }
+
+        .footer strong {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 680px) {
+            body {
+                padding: var(--space-md) var(--space-sm);
+            }
+
+            .container {
+                padding: var(--space-xl) var(--space-lg);
+                border-radius: var(--radius-lg);
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .schedule-row {
+                grid-template-columns: 1fr;
+                gap: var(--space-sm);
+                padding: var(--space-md);
+            }
+
+            .day-name {
+                font-size: 0.85rem;
+            }
+
+            .whatsapp-btn {
+                width: 100%;
+                padding: 0.9rem 1.5rem;
+            }
+
+            .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .status-banner {
+                padding: var(--space-md) var(--space-lg);
+            }
+
+            .status-main {
+                font-size: 0.92rem;
+            }
+
+            .status-sub,
+            .status-urgent {
+                font-size: 0.8rem;
+            }
+
+            .note-block.urgent-highlight .note-content h4 {
+                font-size: 0.92rem;
+            }
+
+            body::before,
+            body::after {
+                filter: blur(80px);
+                opacity: 0.25;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .container {
+                padding: var(--space-lg) var(--space-md);
+            }
+
+            .note-block {
+                padding: var(--space-md);
+            }
+        }
+
+        /* ============================================
+           ACCESIBILIDAD
+           ============================================ */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        ::selection {
+            background: rgba(99, 102, 241, 0.35);
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <main class="container" role="main">
+
+        <!-- ===== CABECERA ===== -->
+        <header class="header">
+            <div class="brand-badge">
+                <span class="dot"></span>
+                Soluinfor 2000 · Soporte Técnico
+            </div>
+            <h1>Horario de Atención</h1>
+            <p>Consulta nuestros horarios de asistencia presencial y remota. Siempre a tu disposición cuando nos necesitas.</p>
+        </header>
+
+        <!-- ===== ESTADO ACTUAL ===== -->
+        <div class="status-banner open" id="statusBanner" role="status" aria-live="polite">
+
+            <div class="status-main">
+                <span class="status-dot"></span>
+                <span id="statusText">Calculando estado...</span>
+            </div>
+
+            <div class="status-sub" id="nextOpeningRow">
+                <span class="sub-icon" aria-hidden="true">🕒</span>
+                <span id="nextOpeningText">Calculando próxima apertura...</span>
+            </div>
+
+            <div class="status-urgent" id="urgentRow" style="display: none;">
+                <span class="urgent-icon" aria-hidden="true">🚨</span>
+                <span>Solo urgencias - Contactar por WhatsApp</span>
+            </div>
+
+        </div>
+
+        <!-- ===== TABLA DE HORARIO ===== -->
+        <section class="schedule-section" aria-label="Horario semanal">
+            <h2 class="section-title">
+                <span class="icon" aria-hidden="true">🗓️</span>
+                Horario Semanal
+            </h2>
+
+            <div class="schedule-grid" id="scheduleGrid">
+
+                <div class="schedule-row" data-day="1">
+                    <span class="day-name">Lunes</span>
+                    <div class="day-hours">
+                        <span class="hours-block">🌅 09:00 – 15:00</span>
+                        <span class="hours-block">🌇 16:30 – 20:00</span>
+                    </div>
+                </div>
+
+                <div class="schedule-row" data-day="2">
+                    <span class="day-name">Martes</span>
+                    <div class="day-hours">
+                        <span class="hours-block">🌅 09:00 – 15:00</span>
+                        <span class="hours-block">🌇 16:30 – 20:00</span>
+                    </div>
+                </div>
+
+                <div class="schedule-row" data-day="3">
+                    <span class="day-name">Miércoles</span>
+                    <div class="day-hours">
+                        <span class="hours-block">🌅 09:00 – 15:00</span>
+                        <span class="hours-block">🌇 16:30 – 20:00</span>
+                    </div>
+                </div>
+
+                <div class="schedule-row" data-day="4">
+                    <span class="day-name">Jueves</span>
+                    <div class="day-hours">
+                        <span class="hours-block">🌅 09:00 – 15:00</span>
+                        <span class="hours-block">🌇 16:30 – 20:00</span>
+                    </div>
+                </div>
+
+                <div class="schedule-row" data-day="5">
+                    <span class="day-name">Viernes</span>
+                    <div class="day-hours">
+                        <span class="hours-block">🌅 09:00 – 15:00</span>
+                        <span class="hours-block">🌇 16:30 – 20:00</span>
+                    </div>
+                </div>
+
+                <div class="schedule-row" data-day="6">
+                    <span class="day-name">Sábado</span>
+                    <div class="day-hours">
+                        <span class="hours-block">🌅 10:00 – 15:00</span>
+                        <span class="hours-block urgent">🚨 Urgencias 16:30 – 20:00</span>
+                    </div>
+                </div>
+
+                <div class="schedule-row" data-day="0">
+                    <span class="day-name">Domingo</span>
+                    <div class="day-hours">
+                        <span class="hours-block">🌅 10:00 – 15:00</span>
+                        <span class="hours-block urgent">🚨 Urgencias 16:30 – 20:00</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ===== NOTAS ADICIONALES ===== -->
+        <section class="notes-section" aria-label="Información adicional">
+
+            <!-- Servicio de urgencias (RESALTADO) -->
+            <div class="note-block urgent-highlight">
+                <div class="note-icon" aria-hidden="true">🚨</div>
+                <div class="note-content">
+                    <h4>
+                        Servicio de Urgencias
+                        <span class="urgent-badge">Importante</span>
+                    </h4>
+                    <p>Festivos Nacionales y/o festivos comunidad de Madrid 10:00 a 15:00 y de 16:30 a 20:00 se considera servicio de urgencias.</p>
+                </div>
+            </div>
+
+            <!-- Cita Previa Recomendada -->
+            <div class="note-block">
+                <div class="note-icon" aria-hidden="true">📅</div>
+                <div class="note-content">
+                    <h4>Cita Previa Recomendada</h4>
+                    <p>Para garantizar una atención rápida y personalizada, solicite cita previa. Así podremos preparar todo lo necesario antes de tu llegada.</p>
+                    <a
+                        class="btn-secondary"
+                        href="https://calendly.com/soluinfor2000/solicitudsoporte"
+                        target="_blank"
+                        rel="noopener"
+                        aria-label="Solicitar cita previa"
+                    >
+                        📅 Solicitar Cita
+                    </a>
+                </div>
+            </div>
+
+            <!-- Asistencia a Domicilio / Remota -->
+            <div class="note-block">
+                <div class="note-icon" aria-hidden="true">🏠</div>
+                <div class="note-content">
+                    <h4>Asistencia a domicilio / Asistencia remota <span style="color: var(--accent-green); font-weight: 700; font-size: 0.85rem;">(más cómodo y económico)</span></h4>
+                    <p>Servicio a domicilio consultar en botón:</p>
+                    <a
+                        class="btn-secondary"
+                        href="https://soluinfor2000-hub.github.io/tarifas.html"
+                        target="_blank"
+                        rel="noopener"
+                        aria-label="Consultar tarifas de asistencia a domicilio"
+                    >
+                        🔍 Consultar
+                    </a>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ===== CTA WHATSAPP ===== -->
+        <section class="cta-section" aria-label="Contacto por WhatsApp">
+            <p class="cta-label">¿Necesitas cita o tienes alguna duda?</p>
+            <a
+                class="whatsapp-btn"
+                href="https://api.whatsapp.com/send?phone=34629813855&text=Bienvenidos%20a%20Fran%20Inform%C3%A1tico%2C%20soporte%20inform%C3%A1tico%20a%20domicilio.%20%C2%BFEn%20que%20podemos%20ayudarle%3F"
+                target="_blank"
+                rel="noopener"
+                aria-label="Contactar por WhatsApp"
+            >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                Contactar por WhatsApp
+            </a>
+            <p class="cta-note">Respuesta rápida · Sin compromiso</p>
+        </section>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="footer">
+            <strong>Soluinfor 2000</strong> · C. Playa Samil, 11, 28400 Collado Villalba, Madrid
+        </footer>
+
+    </main>
+
+    <!-- ============================================
+         SCRIPT: Detección automática de estado
+         ============================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            var normalSchedule = {
+                0: [{ start: 10, end: 15 }],
+                1: [{ start: 9, end: 15 }, { start: 16.5, end: 20 }],
+                2: [{ start: 9, end: 15 }, { start: 16.5, end: 20 }],
+                3: [{ start: 9, end: 15 }, { start: 16.5, end: 20 }],
+                4: [{ start: 9, end: 15 }, { start: 16.5, end: 20 }],
+                5: [{ start: 9, end: 15 }, { start: 16.5, end: 20 }],
+                6: [{ start: 10, end: 15 }]
+            };
+
+            var urgentSchedule = {
+                0: [{ start: 16.5, end: 20 }],
+                6: [{ start: 16.5, end: 20 }]
+            };
+
+            var dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
+            var now = new Date();
+            var currentDay = now.getDay();
+            var currentTime = now.getHours() + now.getMinutes() / 60;
+
+            var status = 'closed';
+
+            var todayNormal = normalSchedule[currentDay] || [];
+            for (var i = 0; i < todayNormal.length; i++) {
+                if (currentTime >= todayNormal[i].start && currentTime < todayNormal[i].end) {
+                    status = 'open';
+                    break;
+                }
+            }
+
+            if (status === 'closed') {
+                var todayUrgent = urgentSchedule[currentDay] || [];
+                for (var j = 0; j < todayUrgent.length; j++) {
+                    if (currentTime >= todayUrgent[j].start && currentTime < todayUrgent[j].end) {
+                        status = 'urgent';
+                        break;
+                    }
+                }
+            }
+
+            function getNextOpening() {
+                for (var d = 0; d < 7; d++) {
+                    var checkDay = (currentDay + d) % 7;
+                    var slots = normalSchedule[checkDay] || [];
+
+                    for (var s = 0; s < slots.length; s++) {
+                        var startHour = slots[s].start;
+                        if (d === 0 && startHour <= currentTime) continue;
+
+                        var h = Math.floor(startHour);
+                        var m = Math.round((startHour % 1) * 60);
+                        var timeStr = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+
+                        return dayNames[checkDay] + ' a las ' + timeStr;
+                    }
+                }
+                return 'próximo día laborable';
+            }
+
+            var banner = document.getElementById('statusBanner');
+            var statusText = document.getElementById('statusText');
+            var nextOpeningText = document.getElementById('nextOpeningText');
+            var urgentRow = document.getElementById('urgentRow');
+
+            if (status === 'open') {
+                banner.className = 'status-banner open';
+                statusText.textContent = 'Abierto ahora · ' + dayNames[currentDay];
+            } else if (status === 'urgent') {
+                banner.className = 'status-banner urgent';
+                statusText.textContent = 'Solo urgencias · ' + dayNames[currentDay];
+            } else {
+                banner.className = 'status-banner closed';
+                statusText.textContent = 'Cerrado ahora';
+            }
+
+            nextOpeningText.innerHTML = 'Próxima apertura: <strong>' + getNextOpening() + '</strong>';
+
+            if (status === 'urgent') {
+                urgentRow.style.display = 'flex';
+            } else {
+                urgentRow.style.display = 'none';
+            }
+
+            var rows = document.querySelectorAll('.schedule-row');
+            rows.forEach(function(row) {
+                var day = parseInt(row.getAttribute('data-day'), 10);
+                if (day === currentDay) {
+                    row.classList.add('today');
+                }
+            });
+
+        })();
+    </script>
+</body>
+</html>
