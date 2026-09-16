@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soluinfor 2000 - Servicios | Fondo oscuro personalizado</title>
+    <!-- Fuentes modernas e íconos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            /* IMAGEN DE FONDO (URL directa de Postimage) */
+            background-image: url('https://i.postimg.cc/0j8ybwqZ/Captura-de-pantalla-2026-04-17-220637.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Capa de transparencia OSCURA (negra) para que la imagen se vea más oscura */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Capa negra al 60% - ajusta este valor para más o menos oscuridad */
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Sección Servicios */
+        .services {
+            padding: 5rem 0;
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #ffffff; /* Texto blanco para contraste con fondo oscuro */
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .section-title p {
+            color: #f1f5f9; /* Texto claro */
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 500;
+            background: rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Tarjetas con fondo más transparente pero legibles sobre fondo oscuro */
+        .service-card {
+            background: rgba(30, 41, 59, 0.75); /* Fondo gris oscuro semitransparente */
+            backdrop-filter: blur(8px);
+            padding: 2rem;
+            border-radius: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            background: rgba(30, 41, 59, 0.9);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.3);
+            border-color: rgba(37, 99, 235, 0.6);
+        }
+
+        .service-icon {
+            background: rgba(37, 99, 235, 0.2);
+            width: 60px;
+            height: 60px;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .service-icon i {
+            font-size: 2rem;
+            color: #60a5fa; /* Azul más claro para destacar */
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: #ffffff;
+        }
+
+        .service-card p {
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        .service-link {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: gap 0.2s;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.25rem 0.8rem;
+            border-radius: 40px;
+        }
+
+        .service-link:hover {
+            gap: 0.5rem;
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            .services {
+                padding: 3rem 0;
+                margin: 1rem 0;
+            }
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            .service-card {
+                background: rgba(30, 41, 59, 0.85);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sección de Servicios con fondo oscuro -->
+    <section id="servicios" class="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Servicios profesionales</h2>
+                <p>Todo lo que necesitas para mantener tus sistemas seguros y actualizados</p>
+            </div>
+            <div class="services-grid">
+                <!-- Servicio 1 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Ciberseguridad</h3>
+                    <p>Protección avanzada para tus sistemas, asesoramiento en seguridad informática y prevención de amenazas.</p>
+                    <a href="#" class="service-link">Más info <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <!-- Servicio 2 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3>Soporte remoto</h3>
+                    <p>Asistencia rápida, cómoda y económica desde cualquier lugar. Solucionamos tus problemas sin desplazamientos.</p>
+                    <a href="https://github.com/rustdesk/rustdesk/releases/" class="service-link" target="_blank">Descargar App asistencia remota <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <!-- Servicio 3 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Desarrollo web</h3>
+                    <p>Creamos tu web, aplicaciones a medida y gestionamos dominios para potenciar tu presencia online.</p>
+                    <a href="#" class="service-link">Más info <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <!-- Servicio 4 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Cursos y formación</h3>
+                    <p>Teleformación o cursos a tu ritmo. Aprende informática, ciberseguridad y más con nuestros expertos.</p>
+                    <a href="#" class="service-link">Más info <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <!-- Servicio 5 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Cita online</h3>
+                    <p>Elige el día y la hora que mejor te venga para tu consulta o servicio técnico sin esperas.</p>
+                    <a href="https://calendly.com/soluinfor2000/solicitudsoporte?month=2025-01" class="service-link" target="_blank">Reservar cita <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <!-- Servicio 6 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Servicio a domicilio</h3>
+                    <p>Nos desplazamos a tu ubicación para resolver incidencias que requieran atención presencial.</p>
+                    <a href="https://soluinfor2000.wixsite.com/soluinfor2000/horario-1" class="service-link" target="_blank">Ver horarios <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
