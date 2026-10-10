@@ -407,6 +407,20 @@
             background: rgba(245, 158, 11, 0.08);
             border-color: rgba(245, 158, 11, 0.2);
             color: #fcd34d;
+            animation: urgentPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes urgentPulse {
+            0%, 100% {
+                background: rgba(245, 158, 11, 0.08);
+                border-color: rgba(245, 158, 11, 0.2);
+                box-shadow: 0 0 0 rgba(245, 158, 11, 0);
+            }
+            50% {
+                background: rgba(245, 158, 11, 0.22);
+                border-color: rgba(245, 158, 11, 0.6);
+                box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+            }
         }
 
         /* ============================================
@@ -854,7 +868,7 @@
                 <div class="schedule-row" data-day="6">
                     <span class="day-name">Sábado</span>
                     <div class="day-hours">
-                        <span class="hours-block">🌅 10:00 – 15:00</span>
+                        <span class="hours-block urgent">🚨 Urgencias 10:00 – 15:00</span>
                         <span class="hours-block urgent">🚨 Urgencias 16:30 – 20:00</span>
                     </div>
                 </div>
@@ -862,7 +876,7 @@
                 <div class="schedule-row" data-day="0">
                     <span class="day-name">Domingo</span>
                     <div class="day-hours">
-                        <span class="hours-block">🌅 10:00 – 15:00</span>
+                        <span class="hours-block urgent">🚨 Urgencias 10:00 – 15:00</span>
                         <span class="hours-block urgent">🚨 Urgencias 16:30 – 20:00</span>
                     </div>
                 </div>
@@ -890,7 +904,7 @@
                 <div class="note-icon" aria-hidden="true">📅</div>
                 <div class="note-content">
                     <h4>Cita Previa Recomendada</h4>
-                    <p>Para garantizar una atención rápida y personalizada, solicite cita previa. Así podremos preparar todo lo necesario antes de tu llegada.</p>
+                    <p>Para garantizar una atención rápida y personalizada, solicite cita previa. Así podremos preparar todo lo necesario antes de la asistencia persencial o asistencia remotamente.</p>
                     <a
                         class="btn-secondary"
                         href="https://calendly.com/soluinfor2000/solicitudsoporte"
@@ -908,7 +922,7 @@
                 <div class="note-icon" aria-hidden="true">🏠</div>
                 <div class="note-content">
                     <h4>Asistencia a domicilio / Asistencia remota <span style="color: var(--accent-green); font-weight: 700; font-size: 0.85rem;">(más cómodo y económico)</span></h4>
-                    <p>Servicio a domicilio consultar en botón:</p>
+                    <p>Consultar tarifa asistencia a domicilio o remota.</p>
                     <a
                         class="btn-secondary"
                         href="https://soluinfor2000-hub.github.io/tarifas.html"
@@ -956,18 +970,18 @@
             'use strict';
 
             var normalSchedule = {
-                0: [{ start: 10, end: 15 }],
+                0: [],
                 1: [{ start: 9, end: 15 }, { start: 16.5, end: 20 }],
                 2: [{ start: 9, end: 15 }, { start: 16.5, end: 20 }],
                 3: [{ start: 9, end: 15 }, { start: 16.5, end: 20 }],
                 4: [{ start: 9, end: 15 }, { start: 16.5, end: 20 }],
                 5: [{ start: 9, end: 15 }, { start: 16.5, end: 20 }],
-                6: [{ start: 10, end: 15 }]
+                6: []
             };
 
             var urgentSchedule = {
-                0: [{ start: 16.5, end: 20 }],
-                6: [{ start: 16.5, end: 20 }]
+                0: [{ start: 10, end: 15 }, { start: 16.5, end: 20 }],
+                6: [{ start: 10, end: 15 }, { start: 16.5, end: 20 }]
             };
 
             var dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
@@ -1031,7 +1045,11 @@
                 statusText.textContent = 'Cerrado ahora';
             }
 
-            nextOpeningText.innerHTML = 'Próxima apertura: <strong>' + getNextOpening() + '</strong>';
+            var nextMsg = 'Próxima apertura: <strong>' + getNextOpening() + '</strong>';
+            if (currentDay !== 0) {
+                nextMsg = '<span style="color:#fcd34d;font-weight:700;">Domingo urgencias</span> · ' + nextMsg;
+            }
+            nextOpeningText.innerHTML = nextMsg;
 
             if (status === 'urgent') {
                 urgentRow.style.display = 'flex';
