@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soluinfor 2000 - Inicio Tarifas</title>
+    <!-- Fuentes modernas e íconos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            /* IMAGEN DE FONDO (misma que Tarifas.html) */
+            background-image: url('https://i.postimg.cc/0j8ybwqZ/Captura-de-pantalla-2026-04-17-220637.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Capa de transparencia OSCURA sobre la imagen */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Sección Inicio Tarifas */
+        .services {
+            padding: 5rem 0;
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .section-title p {
+            color: #f1f5f9;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 500;
+            background: rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Grid de 2 tarjetas centradas */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .service-card {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(8px);
+            padding: 2rem;
+            border-radius: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            background: rgba(30, 41, 59, 0.9);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.3);
+            border-color: rgba(37, 99, 235, 0.6);
+        }
+
+        .service-icon {
+            background: rgba(37, 99, 235, 0.2);
+            width: 60px;
+            height: 60px;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .service-icon i {
+            font-size: 2rem;
+            color: #60a5fa;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: #ffffff;
+        }
+
+        .service-card p {
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            font-weight: 400;
+            flex-grow: 1;
+        }
+
+        .service-link {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: gap 0.2s, background 0.2s, color 0.2s;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            align-self: flex-start;
+        }
+
+        .service-link:hover {
+            gap: 0.5rem;
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            .services {
+                padding: 3rem 0;
+                margin: 1rem 0;
+            }
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            .service-card {
+                background: rgba(30, 41, 59, 0.85);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sección de Inicio Tarifas -->
+    <section id="inicio-tarifas" class="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Inicio Tarifas</h2>
+                <p>Selecciona el tipo de tarifa que necesitas consultar</p>
+            </div>
+            <div class="services-grid">
+                <!-- Botón 1: Tarifas Asistencia -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Tarifas Asistencia</h3>
+                    <p>Consulta las tarifas de asistencia técnica, soporte remoto y servicio a domicilio.</p>
+                    <a href="Tarifas.html" class="service-link">
+                        Ver <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Botón 2: Tarifas Backup -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Tarifas Backup</h3>
+                    <p>Crea tu propio presupuesto de copias de seguridad y servicios de backup a medida.</p>
+                    <a href="https://script.google.com/macros/s/AKfycbxWshQOG7uN1IXUUYr7dgzP6Fr_-jHhF77nxoG3rqbRQx2d-w7QL0pTE1MMl4kK2yDU/exec"
+                       class="service-link" target="_blank" rel="noopener noreferrer">
+                        Ver <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
