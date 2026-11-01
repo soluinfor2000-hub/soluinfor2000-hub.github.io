@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autorización Lista de Distribución Backup</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--card:#0f1220;--p:#00d4ff;--p2:#6c3bff;--txt:#e2e8f0;--dim:#94a3b8;--mute:#64748b;--bd:rgba(255,255,255,.08);--err:#f87171;--ok:#34d399;--warn:#fbbf24;color-scheme:dark}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.glow{position:fixed;border-radius:50%;filter:blur(160px);z-index:0;pointer-events:none}
+.g1{width:500px;height:500px;background:rgba(108,59,255,.15);top:-150px;left:-100px}
+.g2{width:400px;height:400px;background:rgba(0,212,255,.12);bottom:10%;right:-100px}
+.grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px;z-index:0;pointer-events:none}
+.wrap{position:relative;z-index:1;max-width:720px;width:100%}
+
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:32px 28px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+
+header{text-align:center;padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid var(--bd)}
+.tag{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:50px;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.25);color:var(--p);font-size:.7rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:14px}
+h1{font-size:clamp(1.4rem,3.5vw,1.9rem);font-weight:800;letter-spacing:-.5px;margin-bottom:8px;line-height:1.2}
+h1 .g{background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.mensaje{background:rgba(0,212,255,.06);border-left:3px solid var(--p);padding:16px 18px;border-radius:8px;margin-bottom:24px;font-size:.95rem;color:var(--txt);line-height:1.6}
+
+.ref-box{background:rgba(0,0,0,.35);border:1px solid var(--bd);border-radius:12px;padding:16px 20px;margin-bottom:24px}
+.ref-label{font-size:.75rem;color:var(--mute);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.ref-value{font-size:1.15rem;font-weight:700;color:var(--p);font-family:'Inter',monospace;word-break:break-all}
+.ref-nombre{margin-top:8px;font-size:.9rem;color:var(--dim)}
+.ref-nombre strong{color:var(--txt)}
+
+.checks{display:grid;gap:14px;margin-bottom:22px}
+.check-item{border:2px solid var(--bd);border-radius:14px;padding:18px 20px;cursor:pointer;transition:all .25s;background:rgba(255,255,255,.02);display:flex;align-items:center;gap:14px;user-select:none}
+.check-item:hover{border-color:rgba(0,212,255,.4);background:rgba(0,212,255,.04)}
+.check-item.selected.si{border-color:rgba(16,185,129,.7);background:rgba(16,185,129,.1);box-shadow:0 0 0 3px rgba(16,185,129,.15)}
+.check-item.selected.no{border-color:rgba(239,68,68,.7);background:rgba(239,68,68,.1);box-shadow:0 0 0 3px rgba(239,68,68,.15)}
+
+.check-icon{width:32px;height:32px;border-radius:10px;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;flex-shrink:0;transition:all .25s}
+.check-item.selected.si .check-icon{background:#10b981;border-color:#10b981;color:#fff}
+.check-item.selected.no .check-icon{background:#ef4444;border-color:#ef4444;color:#fff}
+
+.check-label{flex:1}
+.check-title{font-weight:700;font-size:1.05rem;margin-bottom:2px;color:var(--txt)}
+.check-sub{font-size:.85rem;color:var(--dim)}
+
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{flex:1;min-width:200px;padding:14px 24px;border-radius:12px;border:none;font-weight:700;font-size:.95rem;font-family:inherit;cursor:pointer;transition:all .3s;color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-si{background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 10px 30px rgba(16,185,129,.3)}
+.btn-si:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 15px 40px rgba(16,185,129,.5)}
+.btn-no{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 10px 30px rgba(239,68,68,.3)}
+.btn-no:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 15px 40px rgba(239,68,68,.5)}
+
+.status{margin-top:18px;padding:14px 18px;border-radius:10px;font-size:.92rem;display:none}
+.status.show{display:block}
+.status.ok{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.4);color:#34d399;font-weight:600}
+.status.err{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#f87171;font-weight:600}
+
+.final{text-align:center;padding:20px 0;display:none}
+.final.show{display:block}
+.final .icon{font-size:3rem;margin-bottom:12px}
+.final h2{font-size:1.3rem;margin-bottom:8px;font-weight:700}
+.final p{color:var(--dim);font-size:.95rem}
+
+footer{text-align:center;color:var(--mute);font-size:.78rem;padding-top:20px;margin-top:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+
+<div class="wrap">
+  <div class="card" id="mainCard">
+    <header>
+      <span class="tag">Backup · Autorización</span>
+      <h1>AUTORIZACIÓN <span class="g">LISTA DE DISTRIBUCIÓN BACKUP</span></h1>
+    </header>
+
+    <div class="mensaje">
+      Le adjuntamos este formulario para la autorización de añadir esta cuenta en el listado de distribución de Backup. Por favor, seleccione su respuesta:
+    </div>
+
+    <div class="ref-box">
+      <div class="ref-label">Referencia</div>
+      <div class="ref-value" id="refValue">—</div>
+      <div class="ref-nombre" id="refNombre" style="display:none"></div>
+    </div>
+
+    <div class="checks">
+      <div class="check-item" data-choice="si" id="checkSi">
+        <div class="check-icon">✓</div>
+        <div class="check-label">
+          <div class="check-title">Sí, autorizo</div>
+          <div class="check-sub">Autorizo añadir esta cuenta al listado de distribución de Backup.</div>
+        </div>
+      </div>
+
+      <div class="check-item" data-choice="no" id="checkNo">
+        <div class="check-icon">✕</div>
+        <div class="check-label">
+          <div class="check-title">No, autorizo</div>
+          <div class="check-sub">No autorizo añadir esta cuenta al listado de distribución de Backup.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-si" id="btnSi" disabled>Enviar Sí autorizo</button>
+      <button class="btn btn-no" id="btnNo" disabled>Enviar No autorizo</button>
+    </div>
+
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="card final" id="finalCard">
+    <div class="icon" id="finalIcon">✅</div>
+    <h2 id="finalTitle">¡Gracias!</h2>
+    <p id="finalMsg">Su respuesta ha sido registrada.</p>
+  </div>
+
+  <footer>
+    © 2026 <strong>Soluinfor 2000</strong> · Servicio de Backup
+  </footer>
+</div>
+
+<script>
+  var REF    = '<?= ref ?>';
+  var NOMBRE = '<?= nombre ?>';
+
+  document.getElementById('refValue').textContent = REF || '(sin referencia)';
+  if (NOMBRE){
+    var rn = document.getElementById('refNombre');
+    rn.innerHTML = 'Nombre / Empresa: <strong>' + NOMBRE + '</strong>';
+    rn.style.display = 'block';
+  }
+
+  var checkSi   = document.getElementById('checkSi');
+  var checkNo   = document.getElementById('checkNo');
+  var btnSi     = document.getElementById('btnSi');
+  var btnNo     = document.getElementById('btnNo');
+  var statusEl  = document.getElementById('status');
+  var mainCard  = document.getElementById('mainCard');
+  var finalCard = document.getElementById('finalCard');
+  var seleccion = null;
+
+  function seleccionar(cual){
+    seleccion = cual;
+    checkSi.classList.remove('selected', 'si', 'no');
+    checkNo.classList.remove('selected', 'si', 'no');
+    btnSi.disabled = true;
+    btnNo.disabled = true;
+
+    if (cual === 'si'){
+      checkSi.classList.add('selected', 'si');
+      btnSi.disabled = false;
+    } else if (cual === 'no'){
+      checkNo.classList.add('selected', 'no');
+      btnNo.disabled = false;
+    }
+  }
+
+  checkSi.addEventListener('click', function(){ seleccionar('si'); });
+  checkNo.addEventListener('click', function(){ seleccionar('no'); });
+
+  function enviar(autorizo){
+    if (!REF){ mostrarStatus('Falta la referencia. No se puede enviar.', true); return; }
+    if (!seleccion){ mostrarStatus('Selecciona una opción primero.', true); return; }
+
+    btnSi.disabled = true;
+    btnNo.disabled = true;
+    mostrarStatus('Enviando respuesta…', false);
+
+    google.script.run
+      .withSuccessHandler(function(res){
+        if (res && res.ok){
+          mostrarFinal(autorizo);
+        } else {
+          mostrarStatus('Error: ' + ((res && res.mensaje) || 'desconocido'), true);
+          if (seleccion === 'si') btnSi.disabled = false; else btnNo.disabled = false;
+        }
+      })
+      .withFailureHandler(function(err){
+        mostrarStatus('Error de conexión: ' + (err && err.message ? err.message : 'desconocido'), true);
+        if (seleccion === 'si') btnSi.disabled = false; else btnNo.disabled = false;
+      })
+      .registrarAutorizacion({ ref: REF, nombre: NOMBRE, autorizo: autorizo });
+  }
+
+  btnSi.addEventListener('click', function(){ enviar(true); });
+  btnNo.addEventListener('click', function(){ enviar(false); });
+
+  function mostrarStatus(msg, esError){
+    statusEl.textContent = msg;
+    statusEl.className = 'status show ' + (esError ? 'err' : 'ok');
+  }
+
+  function mostrarFinal(autorizo){
+    mainCard.style.display = 'none';
+    finalCard.classList.add('show');
+    if (autorizo){
+      document.getElementById('finalIcon').textContent = '✅';
+      document.getElementById('finalTitle').textContent = '¡Gracias! Ha autorizado.';
+      document.getElementById('finalMsg').textContent = 'Hemos registrado su autorización. Recibirá confirmación en breve.';
+    } else {
+      document.getElementById('finalIcon').textContent = '✉️';
+      document.getElementById('finalTitle').textContent = 'Respuesta registrada';
+      document.getElementById('finalMsg').textContent = 'Hemos registrado que NO autoriza. Gracias por su respuesta.';
+    }
+  }
+</script>
+</body>
+</html>
